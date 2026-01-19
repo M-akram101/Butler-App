@@ -23,11 +23,13 @@ on it analytics by the end of the month, and each account is independent from th
 
 ## Tech Stack
 
-- Nodejs (Typescript)
+- Nodejs (Typescript), Express.
 - PostgreSQL
 - Docker
 -
 
 ## Installation
+
+- `npm install`
 
 ## Usage

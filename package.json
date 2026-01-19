@@ -1,0 +1,51 @@
+{
+  "name": "butler-app",
+  "version": "1.0.0",
+  "description": "A financial management system.",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/server.ts",
+    "lint": "eslint 'src/**/*.ts'",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "docker:build": "docker build -t ts-express-app .",
+    "docker:run": "docker run -p 3000:3000 ts-express-app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/M-akram101/Butler-App.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/M-akram101/Butler-App/issues"
+  },
+  "homepage": "https://github.com/M-akram101/Butler-App#readme",
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^25.0.9",
+    "@types/pg": "^8.16.0",
+    "dotenv": "^17.2.3",
+    "eslint": "^9.39.2",
+    "express": "^5.2.1",
+    "install": "^0.13.0",
+    "jest": "^30.2.0",
+    "nodemon": "^3.1.11",
+    "npm": "^11.7.0",
+    "prettier": "^3.8.0",
+    "prisma": "^7.2.0",
+    "ts-jest": "^29.4.6",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@prisma/adapter-pg": "^7.2.0",
+    "@prisma/client": "^7.2.0",
+    "pg": "^8.17.1"
+  }
+}

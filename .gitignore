@@ -1,0 +1,17 @@
+# Ignore build artifacts
+dist/
+build/
+*.log
+
+node_modules/
+# Ignore system-generated files
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Ignore environment and secret files
+.env
+config.json
+
+
+/generated/prisma
