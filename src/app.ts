@@ -1,5 +1,5 @@
 import express from 'express';
-import errorhandling = require('./middlewares/errorhandling');
+import {errorHandler} from './middlewares/errorhandling';
 
 
 
@@ -10,6 +10,6 @@ app.use(express.json());
 
 
 // Global error handler (should be after routes)
-app.use(errorhandling.errorHandler);
+app.use(errorHandler);
 
 export default app;
