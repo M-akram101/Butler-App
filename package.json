@@ -10,6 +10,8 @@
     "lint": "eslint 'src/**/*.ts'",
     "test": "jest",
     "test:watch": "jest --watch",
+    "gen": "prisma generate",
+    "migrate": "prisma migrate dev",
     "docker:build": "docker build -t ts-express-app .",
     "docker:run": "docker run -p 3000:3000 ts-express-app"
   },
@@ -46,6 +48,7 @@
   "dependencies": {
     "@prisma/adapter-pg": "^7.2.0",
     "@prisma/client": "^7.2.0",
-    "pg": "^8.17.1"
+    "pg": "^8.17.1",
+    "zod": "^4.3.5"
   }
 }
