@@ -21,7 +21,7 @@ model User {
   role          Role
   address       String        @db.VarChar(100)
   email         String        @unique
-  number        Int           @unique
+  phoneNumber   String           @unique
   industry      Industry
   jobTitle      String        @map("job_title") @db.VarChar(50)
   maritalStatus MaritalStatus @map("marital_status")
