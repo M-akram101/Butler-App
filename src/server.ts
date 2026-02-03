@@ -1,5 +1,5 @@
 import app from './app';
-import config from './config/config';
+import { PORT } from './config/config';
 import { coreLogger } from './logger/core';
 
 /**
@@ -17,9 +17,9 @@ process.on('uncaughtException', (err) => {
 /**
  * Start server
  */
-const server = app.listen(config.port, () => {
+const server = app.listen(PORT, () => {
   coreLogger.info('Server started', {
-    port: config.port,
+    port: PORT,
     env: process.env.NODE_ENV,
   });
 });

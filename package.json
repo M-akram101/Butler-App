@@ -30,6 +30,7 @@
   "devDependencies": {
     "@types/express": "^5.0.6",
     "@types/jest": "^30.0.0",
+    "@types/morgan": "^1.9.10",
     "@types/node": "^25.0.9",
     "@types/pg": "^8.16.0",
     "dotenv": "^17.2.3",
@@ -54,7 +55,6 @@
     "helmet": "^8.1.0",
     "pg": "^8.17.1",
     "winston": "^3.19.0",
-    "xss": "^1.0.15",
     "zod": "^4.3.5"
   }
 }

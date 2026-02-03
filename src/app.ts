@@ -2,10 +2,10 @@ import express from 'express';
 import morgan from 'morgan';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
-import xss from 'xss';
 
 import { errorHandler } from './middleware/errorHandling';
 import { requestLogger } from './middleware/requestLogger';
+import { routeNotFound } from './middleware/routeNotFound';
 const app = express();
 //// Security Middlewares
 
@@ -18,7 +18,6 @@ const limiter = rateLimit({
   message: 'Too many requests from this Ip, Please try again in an hour !!',
 });
 app.use(express.json({ limit: '10kb' }));
-app.use(xss());
 
 // Development logger
 if (process.env.NODE_ENV === 'development') app.use(morgan('dev'));
@@ -29,7 +28,7 @@ app.use(requestLogger);
 // app.use('/api/v1/users', userRouter);
 
 // Global error handler (should be after routes)
-
+app.use(routeNotFound);
 app.use(errorHandler);
 
 export default app;

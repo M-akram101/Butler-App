@@ -1,17 +1,94 @@
+// middleware/errorHandler.ts
 import type { Request, Response, NextFunction } from 'express';
+import { ZodError } from 'zod';
+import { AppError } from '../utils/appError';
+import { DEVELOPMENT } from '../config/config';
+import { ApiResponseStatus } from '../utils/enums/enums';
+import { errorLogger } from '../logger/error.logger';
 
-export interface AppError extends Error {
-  status?: number;
-}
+type PrismaLikeError = {
+  code?: string;
+  meta?: {
+    target?: string[];
+  };
+};
 
 export const errorHandler = (
-  err: AppError,
+  err: unknown,
   req: Request,
   res: Response,
-  next: NextFunction,
+  _next: NextFunction,
 ) => {
-  console.error(err);
-  res.status(err.status || 500).json({
-    message: err.message || 'Internal Server Error',
+  let statusCode = 500;
+  let message = 'Something went wrong!';
+  let status = ApiResponseStatus.Failure;
+  let logLevel: 'error' | 'warn' = 'error';
+
+  // Prisma errors
+  if (err && typeof err === 'object' && 'code' in err) {
+    const prismaErr = err as PrismaLikeError;
+
+    if (prismaErr.code === 'P2002') {
+      const fields = prismaErr.meta?.target?.join(', ') ?? 'field';
+      statusCode = 409;
+      message = `Duplicate value for ${fields}`;
+      status = ApiResponseStatus.Conflict;
+      logLevel = 'warn';
+    }
+
+    if (prismaErr.code === 'P2025') {
+      statusCode = 404;
+      message = 'Resource not found';
+      status = ApiResponseStatus.NotFound;
+      logLevel = 'warn';
+    }
+  }
+
+  // Zod validation errors
+  else if (err instanceof ZodError) {
+    statusCode = 400;
+    message = err.issues.map((e) => e.message).join(', ');
+    status = ApiResponseStatus.BadRequest;
+    logLevel = 'warn';
+  }
+
+  // JWT errors
+  else if (err instanceof Error && err.name === 'JsonWebTokenError') {
+    statusCode = 401;
+    message = 'Invalid token';
+    status = ApiResponseStatus.Unauthorized;
+    logLevel = 'warn';
+  } else if (err instanceof Error && err.name === 'TokenExpiredError') {
+    statusCode = 401;
+    message = 'Token expired';
+    status = ApiResponseStatus.Unauthorized;
+    logLevel = 'warn';
+  }
+
+  // App errors
+  else if (err instanceof AppError) {
+    statusCode = err.statusCode;
+    message = err.message;
+    status = ApiResponseStatus.Failure;
+    logLevel = 'warn';
+  }
+
+  // Generic JS errors
+  else if (err instanceof Error) {
+    message = err.message;
+  }
+
+  // Dev logging
+  if (DEVELOPMENT || statusCode >= 500) {
+    console.error(err);
+  }
+
+  // Centralized logging (ONCE)
+  errorLogger(err, req, {
+    statusCode,
+    responseStatus: status,
+    level: logLevel,
   });
+
+  res.status(statusCode).json({ status, message });
 };
