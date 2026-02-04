@@ -32,7 +32,7 @@ process.on('unhandledRejection', (err: any) => {
     message: err?.message,
     stack: err?.stack,
   });
-
+  // Shuts down gracefully, gives time for server to finish requests before shutting down
   server.close(() => process.exit(1));
 });
 

@@ -6,6 +6,7 @@ import rateLimit from 'express-rate-limit';
 import { errorHandler } from './middleware/errorHandling';
 import { requestLogger } from './middleware/requestLogger';
 import { routeNotFound } from './middleware/routeNotFound';
+import { requestId } from './middleware/requestId';
 const app = express();
 //// Security Middlewares
 
@@ -22,6 +23,8 @@ app.use(express.json({ limit: '10kb' }));
 // Development logger
 if (process.env.NODE_ENV === 'development') app.use(morgan('dev'));
 
+// Generating request Id for logs
+app.use(requestId);
 // Request logger
 app.use(requestLogger);
 // Routes

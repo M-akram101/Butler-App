@@ -12,12 +12,13 @@ export function requestLogger(req: Request, res: Response, next: NextFunction) {
 
     coreLogger.log(level, 'HTTP request completed', {
       event: 'HTTP_REQUEST',
+      requestId: req.requestId,
+      userId: req.user?.id, // if auth middleware exists
       method: req.method,
       path: req.originalUrl,
       statusCode: res.statusCode,
       durationMs: Math.round(durationMs),
       ip: req.ip,
-      userId: (req as any).user?.id, // if auth middleware exists
     });
   });
 

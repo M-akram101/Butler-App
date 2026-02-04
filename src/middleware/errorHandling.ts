@@ -42,6 +42,37 @@ export const errorHandler = (
       status = ApiResponseStatus.NotFound;
       logLevel = 'warn';
     }
+    if (prismaErr.code === 'P2003') {
+      statusCode = 400;
+      message = 'Failed to delete';
+      status = ApiResponseStatus.Failure;
+      logLevel = 'warn';
+    }
+    if (prismaErr.code === 'P2000') {
+      statusCode = 400;
+      message = 'Value is too long';
+      status = ApiResponseStatus.Failure;
+      logLevel = 'warn';
+    }
+    if (prismaErr.code === 'P2011') {
+      statusCode = 400;
+      message = 'Missing value';
+      status = ApiResponseStatus.Failure;
+      logLevel = 'warn';
+    }
+
+    if (prismaErr.code === 'P6004') {
+      statusCode = 503;
+      message = 'Request timed out. Please try again.';
+      logLevel = 'warn';
+      status = ApiResponseStatus.Failure;
+    }
+    if (prismaErr.code === 'P6009') {
+      statusCode = 413;
+      message = 'Response too large. Use pagination.';
+      logLevel = 'warn';
+      status = ApiResponseStatus.Failure;
+    }
   }
 
   // Zod validation errors
