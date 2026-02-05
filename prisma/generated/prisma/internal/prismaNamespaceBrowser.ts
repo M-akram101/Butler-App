@@ -60,12 +60,12 @@ export type ModelName = (typeof ModelName)[keyof typeof ModelName]
  * Enums
  */
 
-export const TransactionIsolationLevel = {
+export const TransactionIsolationLevel = runtime.makeStrictEnum({
   ReadUncommitted: 'ReadUncommitted',
   ReadCommitted: 'ReadCommitted',
   RepeatableRead: 'RepeatableRead',
   Serializable: 'Serializable'
-} as const
+} as const)
 
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
@@ -78,12 +78,14 @@ export const UserScalarFieldEnum = {
   role: 'role',
   address: 'address',
   email: 'email',
-  number: 'number',
+  phoneNumber: 'phoneNumber',
   industry: 'industry',
+  jobTitle: 'jobTitle',
   maritalStatus: 'maritalStatus',
   dateOfBirth: 'dateOfBirth',
   gender: 'gender',
   isApproved: 'isApproved',
+  isActive: 'isActive',
   isDeleted: 'isDeleted',
   createdAt: 'createdAt'
 } as const

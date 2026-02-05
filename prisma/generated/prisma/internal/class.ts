@@ -17,10 +17,10 @@ import type * as Prisma from "./prismaNamespace.js"
 
 const config: runtime.GetPrismaClientConfig = {
   "previewFeatures": [],
-  "clientVersion": "7.2.0",
-  "engineVersion": "0c8ef2ce45c83248ab3df073180d5eda9e8be7a3",
+  "clientVersion": "7.3.0",
+  "engineVersion": "9d6ad21cbbceab97458517b147a6a09ff43aa735",
   "activeProvider": "postgresql",
-  "inlineSchema": "// src/enums/role.enum.ts\nenum Role {\n  ADMIN\n  CONTRIBUTOR\n}\n\nenum Industry {\n  TECHNOLOGY\n  HEALTHCARE\n  FINANCE\n  EDUCATION\n  BUSINESS\n  SALES_MARKETING\n  MANUFACTURING\n  CONSTRUCTION\n  REAL_ESTATE\n  ENERGY\n  AGRICULTURE\n  FOOD_BEVERAGE\n  TRANSPORTATION\n  LOGISTICS\n  RETAIL\n  ECOMMERCE\n  MEDIA\n  ENTERTAINMENT\n  TELECOMMUNICATIONS\n  GOVERNMENT\n  PUBLIC_SECTOR\n  LEGAL\n  SECURITY\n  HOSPITALITY\n  TRAVEL\n  TOURISM\n  SPORTS\n  FITNESS\n  NON_PROFIT\n  SOCIAL_SERVICES\n  SCIENCE\n  ENVIRONMENT\n  CONSULTING\n  PROFESSIONAL_SERVICES\n  DESIGN\n  CREATIVE\n  HUMAN_RESOURCES\n  RECRUITMENT\n  FREELANCE\n  SELF_EMPLOYED\n  OTHER\n}\n\nenum Gender {\n  MALE\n  FEMALE\n}\n\nenum MaritalStatus {\n  SINGLE\n  MARRIED\n  DIVORCED\n  SEPERATED\n  WIDOWED\n  PREFER_NOT_TO_SAY\n}\n\n// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n/// @import \"enums.prisma\"\ngenerator client {\n  provider = \"prisma-client\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel User {\n  id            Int           @id @default(autoincrement())\n  firstName     String        @map(\"first_name\") @db.VarChar(50)\n  lastName      String        @map(\"last_name\") @db.VarChar(50)\n  password      String        @db.VarChar(100)\n  role          Role\n  address       String        @db.VarChar(100)\n  email         String        @unique\n  number        Int           @unique\n  industry      Industry\n  maritalStatus MaritalStatus @map(\"marital_status\")\n  dateOfBirth   DateTime      @map(\"date_of_birth\")\n  gender        Gender\n  isApproved    Boolean       @default(false)\n  isDeleted     Boolean       @default(false)\n  createdAt     DateTime      @default(now())\n  // accountId\n}\n",
+  "inlineSchema": "// src/enums/role.enum.ts\nenum Role {\n  ADMIN\n  CONTRIBUTOR\n}\n\nenum Industry {\n  TECHNOLOGY\n  HEALTHCARE\n  FINANCE\n  EDUCATION\n  BUSINESS\n  SALES_MARKETING\n  MANUFACTURING\n  CONSTRUCTION\n  REAL_ESTATE\n  ENERGY\n  AGRICULTURE\n  FOOD_BEVERAGE\n  TRANSPORTATION\n  LOGISTICS\n  RETAIL\n  ECOMMERCE\n  MEDIA\n  ENTERTAINMENT\n  TELECOMMUNICATIONS\n  GOVERNMENT\n  PUBLIC_SECTOR\n  LEGAL\n  SECURITY\n  HOSPITALITY\n  TRAVEL\n  TOURISM\n  SPORTS\n  FITNESS\n  NON_PROFIT\n  SOCIAL_SERVICES\n  SCIENCE\n  ENVIRONMENT\n  CONSULTING\n  PROFESSIONAL_SERVICES\n  DESIGN\n  CREATIVE\n  HUMAN_RESOURCES\n  RECRUITMENT\n  FREELANCE\n  SELF_EMPLOYED\n  OTHER\n}\n\nenum Gender {\n  MALE\n  FEMALE\n}\n\nenum MaritalStatus {\n  SINGLE\n  MARRIED\n  DIVORCED\n  SEPERATED\n  WIDOWED\n  PREFER_NOT_TO_SAY\n}\n\n// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n/// @import \"enums.prisma\"\ngenerator client {\n  provider = \"prisma-client\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel User {\n  id            String        @id @default(uuid())\n  firstName     String        @map(\"first_name\") @db.VarChar(50)\n  lastName      String        @map(\"last_name\") @db.VarChar(50)\n  password      String        @db.VarChar(100)\n  role          Role\n  address       String        @db.VarChar(100)\n  email         String        @unique\n  phoneNumber   String        @unique\n  industry      Industry\n  jobTitle      String        @map(\"job_title\") @db.VarChar(50)\n  maritalStatus MaritalStatus @map(\"marital_status\")\n  dateOfBirth   DateTime      @map(\"date_of_birth\")\n  gender        Gender\n  isApproved    Boolean       @default(false)\n  isActive      Boolean       @default(false)\n  isDeleted     Boolean       @default(false)\n  createdAt     DateTime      @default(now())\n  // accountId\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
@@ -28,7 +28,7 @@ const config: runtime.GetPrismaClientConfig = {
   }
 }
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"firstName\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"first_name\"},{\"name\":\"lastName\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"last_name\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"Role\"},{\"name\":\"address\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"number\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"industry\",\"kind\":\"enum\",\"type\":\"Industry\"},{\"name\":\"maritalStatus\",\"kind\":\"enum\",\"type\":\"MaritalStatus\",\"dbName\":\"marital_status\"},{\"name\":\"dateOfBirth\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"date_of_birth\"},{\"name\":\"gender\",\"kind\":\"enum\",\"type\":\"Gender\"},{\"name\":\"isApproved\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"isDeleted\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"firstName\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"first_name\"},{\"name\":\"lastName\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"last_name\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"Role\"},{\"name\":\"address\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"phoneNumber\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"industry\",\"kind\":\"enum\",\"type\":\"Industry\"},{\"name\":\"jobTitle\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"job_title\"},{\"name\":\"maritalStatus\",\"kind\":\"enum\",\"type\":\"MaritalStatus\",\"dbName\":\"marital_status\"},{\"name\":\"dateOfBirth\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"date_of_birth\"},{\"name\":\"gender\",\"kind\":\"enum\",\"type\":\"Gender\"},{\"name\":\"isApproved\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"isActive\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"isDeleted\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 
 async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Module> {
   const { Buffer } = await import('node:buffer')
@@ -37,12 +37,14 @@ async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Modul
 }
 
 config.compilerWasm = {
-  getRuntime: async () => await import("@prisma/client/runtime/query_compiler_bg.postgresql.mjs"),
+  getRuntime: async () => await import("@prisma/client/runtime/query_compiler_fast_bg.postgresql.mjs"),
 
   getQueryCompilerWasmModule: async () => {
-    const { wasm } = await import("@prisma/client/runtime/query_compiler_bg.postgresql.wasm-base64.mjs")
+    const { wasm } = await import("@prisma/client/runtime/query_compiler_fast_bg.postgresql.wasm-base64.mjs")
     return await decodeBase64AsWasm(wasm)
-  }
+  },
+
+  importName: "./query_compiler_fast_bg.js"
 }
 
 

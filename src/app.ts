@@ -2,6 +2,7 @@ import express from 'express';
 import morgan from 'morgan';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
+import cookieParser from 'cookie-parser';
 
 import { errorHandler } from './middleware/errorHandling';
 import { requestLogger } from './middleware/requestLogger';
@@ -19,7 +20,8 @@ const limiter = rateLimit({
   message: 'Too many requests from this Ip, Please try again in an hour !!',
 });
 app.use(express.json({ limit: '10kb' }));
-
+// Parses cookie to req
+app.use(cookieParser());
 // Development logger
 if (process.env.NODE_ENV === 'development') app.use(morgan('dev'));
 
