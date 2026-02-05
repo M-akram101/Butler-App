@@ -35,7 +35,13 @@ export const UserOutputSchema = UserSchema.partial()
     isApproved: z.boolean(),
   });
 export const CreateUserSchema = UserSchema;
-export const UpdateUserSchema = UserSchema.partial().omit({ email: true });
+export const UpdateUserSchema = UserSchema.partial()
+  .omit({
+    email: true,
+    password: true,
+    passConfirm: true,
+  })
+  .strip();
 export const SignUpSchema = UserSchema.refine(
   (data) => data.password === data.passConfirm,
   {

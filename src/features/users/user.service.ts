@@ -1,5 +1,10 @@
 import prisma from '../../prismaClient';
 import { AppError } from '../../utils/appError';
+import {
+  cleanForPrismaUpdate,
+  stripUndefined,
+} from '../../utils/stripUndefined';
+import type { UpdateUserDTO } from './user.dto';
 
 export const getAllusers = async ({
   skipValue,
@@ -8,7 +13,7 @@ export const getAllusers = async ({
   skipValue: number;
   takeValue: number;
 }) => {
-  // Maybe in the future should select some columns instead of *
+  // Maybe in the future should select some columns instead of *, also sort by createdAT?
   const users = await prisma.user.findMany({
     skip: skipValue,
     take: takeValue,
@@ -17,6 +22,17 @@ export const getAllusers = async ({
 
   return users;
 };
+
+export const getUserById = async (id: string) => {
+  const user = await prisma.user.findFirst({
+    where: { id, isDeleted: false },
+  });
+
+  // check existence
+
+  return user;
+};
+
 export const getUserByEmail = async (email: string) => {
   const user = await prisma.user.findFirst({
     where: { email, isDeleted: false },
@@ -26,10 +42,11 @@ export const getUserByEmail = async (email: string) => {
   return user;
 };
 
-export const getUserById = async (id: string) => {
-  const user = await prisma.user.findFirst({
-    where: { id, isDeleted: false },
+export const updateUser = async (userId: string, data: UpdateUserDTO) => {
+  const cleanedData = await cleanForPrismaUpdate(data);
+  const updatedUser = await prisma.user.update({
+    where: { id: userId },
+    data: cleanedData,
   });
-
-  return user;
+  return updatedUser;
 };
