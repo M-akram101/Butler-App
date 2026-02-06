@@ -8,6 +8,9 @@ import { errorHandler } from './middleware/errorHandling';
 import { requestLogger } from './middleware/requestLogger';
 import { routeNotFound } from './middleware/routeNotFound';
 import { requestId } from './middleware/requestId';
+import authRouter from './features/auth/auth.routes';
+import userRouter from './features/users/user.routes';
+
 const app = express();
 //// Security Middlewares
 
@@ -29,8 +32,10 @@ if (process.env.NODE_ENV === 'development') app.use(morgan('dev'));
 app.use(requestId);
 // Request logger
 app.use(requestLogger);
+
 // Routes
-// app.use('/api/v1/users', userRouter);
+app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/users', userRouter);
 
 // Global error handler (should be after routes)
 app.use(routeNotFound);
