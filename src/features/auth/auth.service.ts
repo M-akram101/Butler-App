@@ -1,4 +1,3 @@
-import { email } from 'zod';
 import { getUserByEmail } from '../users/user.service';
 import { AppError } from '../../utils/appError';
 import {
@@ -7,7 +6,7 @@ import {
   verifyPassword,
 } from '../../utils/auth';
 import type { SignUpDTO, UserOutputDTO } from '../users/user.dto';
-import prisma from '../../prismaClient';
+import { prisma } from '../../prismaClient';
 
 export const signUp = async (data: SignUpDTO): Promise<UserOutputDTO> => {
   const existingUser = await prisma.user.findFirst({
@@ -74,4 +73,17 @@ export const login = async (email: string, password: string) => {
   }
   const token = createAccessToken(user.id);
   return { token, user: { id: user.id, email: user.email } };
+};
+
+export const getUserRoleById = async (id: string) => {
+  const user = await prisma.user.findUnique({
+    where: { id, isDeleted: false },
+    select: {
+      id: true,
+      role: true,
+      passwordChangedAt: true,
+    },
+  });
+
+  return user;
 };

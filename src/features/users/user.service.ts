@@ -1,9 +1,6 @@
-import prisma from '../../prismaClient';
+import { prisma } from '../../prismaClient';
 import { AppError } from '../../utils/appError';
-import {
-  cleanForPrismaUpdate,
-  stripUndefined,
-} from '../../utils/stripUndefined';
+import { cleanForPrismaUpdate } from '../../utils/stripUndefined';
 import type { UpdateUserDTO } from './user.dto';
 
 export const getAllusers = async ({
@@ -43,10 +40,24 @@ export const getUserByEmail = async (email: string) => {
 };
 
 export const updateUser = async (userId: string, data: UpdateUserDTO) => {
-  const cleanedData = await cleanForPrismaUpdate(data);
+  const cleanedData = cleanForPrismaUpdate(data);
+
+  if (Object.keys(cleanedData).length === 0)
+    throw new AppError('No fields to update', 400);
+
   const updatedUser = await prisma.user.update({
     where: { id: userId },
     data: cleanedData,
   });
+
+  return updatedUser;
+};
+
+export const deleteUser = async (userId: string) => {
+  const updatedUser = await prisma.user.update({
+    where: { id: userId },
+    data: { isDeleted: true },
+  });
+
   return updatedUser;
 };

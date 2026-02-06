@@ -6,14 +6,14 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/server.js",
-    "dev": "nodemon --exec tsx src/server.ts",
+    "dev": "nodemon --watch src/**/*.ts --exec tsx src/server.ts",
     "lint": "eslint 'src/**/*.ts'",
     "test": "jest",
     "test:watch": "jest --watch",
-    "gen": "prisma generate",
-    "migrate": "prisma migrate dev",
-    "docker:build": "docker build -t ts-express-app .",
-    "docker:run": "docker run -p 3000:3000 ts-express-app"
+    "prisma:gen": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "docker:build": "docker build -t butler-app .",
+    "docker:run": "docker run -p 3000:3000 butler-app"
   },
   "repository": {
     "type": "git",
@@ -52,11 +52,13 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
-    "@prisma/adapter-pg": "^7.2.0",
+    "@prisma/adapter-pg": "^7.3.0",
     "@prisma/client": "^7.3.0",
     "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
     "express-rate-limit": "^8.2.1",
     "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.3",
     "pg": "^8.17.1",
     "winston": "^3.19.0",
     "zod": "^4.3.5"

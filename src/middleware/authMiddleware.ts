@@ -2,9 +2,8 @@ import type { Request, Response, NextFunction } from 'express';
 import { AppError } from '../utils/appError';
 import jwt from 'jsonwebtoken';
 import { JWT_SECRET } from '../config/config';
-import { error } from 'node:console';
 import { catchAsync } from '../utils/catchAsync';
-import { getUserById } from '../features/users/user.service';
+import { getUserRoleById } from '../features/auth/auth.service';
 export const authenticate = () =>
   catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const token = req.cookies?.accessToken;
@@ -19,19 +18,26 @@ export const authenticate = () =>
 
     const decoded = jwt.verify(token, JWT_SECRET) as {
       id: string;
+      iat: number;
     };
-
-    if (typeof decoded !== 'object' || !decoded || !('id' in decoded)) {
+    if (!decoded || typeof decoded !== 'object' || !('id' in decoded)) {
       throw new AppError('Invalid token payload', 401);
     }
     // Check if user exists
-    const user = await getUserById(decoded.id);
+    const user = await getUserRoleById(decoded.id);
 
     if (!user) {
       throw new AppError('User no longer exists', 401);
     }
-    res.locals.userId = decoded.id;
-    res.locals.user = user;
+
+    // Checking if passward wasnt changed after token issuance
+    if (
+      user.passwordChangedAt &&
+      decoded.iat * 1000 < user.passwordChangedAt.getTime()
+    ) {
+      throw new AppError('Password changed. Please login again.', 401);
+    }
+    res.locals.user = { id: decoded.id, role: user.role };
 
     // add condition to check user didnt change pass after token issuance
 

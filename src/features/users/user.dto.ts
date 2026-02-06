@@ -1,10 +1,5 @@
 import * as z from 'zod';
-import {
-  Role,
-  Industry,
-  MaritalStatus,
-  Gender,
-} from '../../../prisma/generated/prisma/enums';
+import { Role, Industry, Gender, MaritalStatus } from '@prisma/client';
 
 const UserSchema = z.object({
   firstName: z.string().min(1, 'First name is required'),

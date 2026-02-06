@@ -1,4 +1,4 @@
-import type { Prisma } from '../../prisma/generated/prisma/client';
+import type { Prisma } from '@prisma/client';
 
 export function cleanForPrismaUpdate<T extends object>(
   data: T,

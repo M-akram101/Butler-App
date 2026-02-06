@@ -3,15 +3,88 @@
 
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-/// @import "enums.prisma"
+
+/// @import "./enums.prisma"
+
+
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
 }
+
+
+/* ===== ENUMS (must be here) ===== */
+
+
+enum Role {
+    ADMIN
+    CONTRIBUTOR
+}
+
+enum Industry {
+    TECHNOLOGY
+    HEALTHCARE
+    FINANCE
+    EDUCATION
+    BUSINESS
+    SALES_MARKETING
+    MANUFACTURING
+    CONSTRUCTION
+    REAL_ESTATE
+    ENERGY
+    AGRICULTURE
+    FOOD_BEVERAGE
+    TRANSPORTATION
+    LOGISTICS
+    RETAIL
+    ECOMMERCE
+    MEDIA
+    ENTERTAINMENT
+    TELECOMMUNICATIONS
+    GOVERNMENT
+    PUBLIC_SECTOR
+    LEGAL
+    SECURITY
+    HOSPITALITY
+    TRAVEL
+    TOURISM
+    SPORTS
+    FITNESS
+    NON_PROFIT
+    SOCIAL_SERVICES
+    SCIENCE
+    ENVIRONMENT
+    CONSULTING
+    PROFESSIONAL_SERVICES
+    DESIGN
+    CREATIVE
+    HUMAN_RESOURCES
+    RECRUITMENT
+    FREELANCE
+    SELF_EMPLOYED
+    OTHER
+}
+
+enum Gender {
+    MALE
+    FEMALE
+}
+
+enum MaritalStatus {
+    SINGLE
+    MARRIED
+    DIVORCED
+    SEPERATED
+    WIDOWED
+    PREFER_NOT_TO_SAY
+}
+
+/* ===== MODELS ===== */
+
+
 
 model User {
   id            String        @id @default(uuid())
@@ -31,5 +104,6 @@ model User {
   isActive      Boolean       @default(false)
   isDeleted     Boolean       @default(false)
   createdAt     DateTime      @default(now())
+  passwordChangedAt DateTime?  
   // accountId
 }
