@@ -1,23 +1,23 @@
 import { Router } from 'express';
 import { validate } from '../../middleware/validateRequest';
-import { loginHandler, signUpHandler } from '../auth/auth.controller';
-import { LoginSchema, SignUpSchema, UpdateUserSchema } from './user.dto';
+
 import {
   deleteUserHandler,
   getAllUsersHandler,
   updateUserHandler,
 } from './user.controller';
 import { authenticate } from '../../middleware/authMiddleware';
+import { UpdateUserSchema } from './user.dto';
 
 const router = Router();
-
-router.get('/', authenticate, getAllUsersHandler);
+console.log('Inside router');
+router.get('/', getAllUsersHandler);
 router.patch(
   '/me',
-  authenticate,
+  authenticate(),
   validate(UpdateUserSchema),
   updateUserHandler,
 );
-router.delete('/me', authenticate, deleteUserHandler);
+router.delete('/me', authenticate(), deleteUserHandler);
 
 export default router;

@@ -6,7 +6,7 @@ import { catchAsync } from '../utils/catchAsync';
 import { getUserRoleById } from '../features/auth/auth.service';
 export const authenticate = () =>
   catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const token = req.cookies?.accessToken;
+    const token = req.cookies?.token;
 
     if (!token) {
       throw new AppError('Access denied. No token provided.', 401);
@@ -27,7 +27,7 @@ export const authenticate = () =>
     const user = await getUserRoleById(decoded.id);
 
     if (!user) {
-      throw new AppError('User no longer exists', 401);
+      throw new AppError('User no longer exists', 400);
     }
 
     // Checking if passward wasnt changed after token issuance

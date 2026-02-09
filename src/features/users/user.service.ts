@@ -15,6 +15,19 @@ export const getAllusers = async ({
     skip: skipValue,
     take: takeValue,
     where: { isDeleted: false },
+    select: {
+      firstName: true,
+      lastName: true,
+      address: true,
+      email: true,
+      phoneNumber: true,
+      role: true,
+      industry: true,
+      maritalStatus: true,
+      gender: true,
+      jobTitle: true,
+      dateOfBirth: true,
+    },
   });
 
   return users;
@@ -48,6 +61,19 @@ export const updateUser = async (userId: string, data: UpdateUserDTO) => {
   const updatedUser = await prisma.user.update({
     where: { id: userId },
     data: cleanedData,
+    select: {
+      firstName: true,
+      lastName: true,
+      address: true,
+      email: true,
+      phoneNumber: true,
+      role: true,
+      industry: true,
+      maritalStatus: true,
+      gender: true,
+      jobTitle: true,
+      dateOfBirth: true,
+    },
   });
 
   return updatedUser;

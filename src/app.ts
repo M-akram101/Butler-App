@@ -26,7 +26,7 @@ app.use(express.json({ limit: '10kb' }));
 // Parses cookie to req
 app.use(cookieParser());
 // Development logger
-if (process.env.NODE_ENV === 'development') app.use(morgan('dev'));
+// if (process.env.NODE_ENV === 'development') app.use(morgan('dev'));
 
 // Generating request Id for logs
 app.use(requestId);
