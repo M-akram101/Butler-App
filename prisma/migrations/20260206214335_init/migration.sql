@@ -1,0 +1,41 @@
+-- CreateEnum
+CREATE TYPE "Role" AS ENUM ('ADMIN', 'CONTRIBUTOR');
+
+-- CreateEnum
+CREATE TYPE "Industry" AS ENUM ('TECHNOLOGY', 'HEALTHCARE', 'FINANCE', 'EDUCATION', 'BUSINESS', 'SALES_MARKETING', 'MANUFACTURING', 'CONSTRUCTION', 'REAL_ESTATE', 'ENERGY', 'AGRICULTURE', 'FOOD_BEVERAGE', 'TRANSPORTATION', 'LOGISTICS', 'RETAIL', 'ECOMMERCE', 'MEDIA', 'ENTERTAINMENT', 'TELECOMMUNICATIONS', 'GOVERNMENT', 'PUBLIC_SECTOR', 'LEGAL', 'SECURITY', 'HOSPITALITY', 'TRAVEL', 'TOURISM', 'SPORTS', 'FITNESS', 'NON_PROFIT', 'SOCIAL_SERVICES', 'SCIENCE', 'ENVIRONMENT', 'CONSULTING', 'PROFESSIONAL_SERVICES', 'DESIGN', 'CREATIVE', 'HUMAN_RESOURCES', 'RECRUITMENT', 'FREELANCE', 'SELF_EMPLOYED', 'OTHER');
+
+-- CreateEnum
+CREATE TYPE "Gender" AS ENUM ('MALE', 'FEMALE');
+
+-- CreateEnum
+CREATE TYPE "MaritalStatus" AS ENUM ('SINGLE', 'MARRIED', 'DIVORCED', 'SEPERATED', 'WIDOWED', 'PREFER_NOT_TO_SAY');
+
+-- CreateTable
+CREATE TABLE "User" (
+    "id" TEXT NOT NULL,
+    "first_name" VARCHAR(50) NOT NULL,
+    "last_name" VARCHAR(50) NOT NULL,
+    "password" VARCHAR(100) NOT NULL,
+    "role" "Role" NOT NULL,
+    "address" VARCHAR(100) NOT NULL,
+    "email" TEXT NOT NULL,
+    "phoneNumber" TEXT NOT NULL,
+    "industry" "Industry" NOT NULL,
+    "job_title" VARCHAR(50) NOT NULL,
+    "marital_status" "MaritalStatus" NOT NULL,
+    "date_of_birth" TIMESTAMP(3) NOT NULL,
+    "gender" "Gender" NOT NULL,
+    "isApproved" BOOLEAN NOT NULL DEFAULT false,
+    "isActive" BOOLEAN NOT NULL DEFAULT false,
+    "isDeleted" BOOLEAN NOT NULL DEFAULT false,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "passwordChangedAt" TIMESTAMP(3),
+
+    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_phoneNumber_key" ON "User"("phoneNumber");

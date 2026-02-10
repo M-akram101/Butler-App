@@ -6,12 +6,14 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/server.js",
-    "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/server.ts",
+    "dev": "nodemon --watch src/**/*.ts --exec tsx src/server.ts",
     "lint": "eslint 'src/**/*.ts'",
     "test": "jest",
     "test:watch": "jest --watch",
-    "docker:build": "docker build -t ts-express-app .",
-    "docker:run": "docker run -p 3000:3000 ts-express-app"
+    "prisma:gen": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "docker:build": "docker build -t butler-app .",
+    "docker:run": "docker run -p 3000:3000 butler-app"
   },
   "repository": {
     "type": "git",
@@ -26,8 +28,12 @@
   },
   "homepage": "https://github.com/M-akram101/Butler-App#readme",
   "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "@types/cookie-parser": "^1.4.10",
     "@types/express": "^5.0.6",
     "@types/jest": "^30.0.0",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/morgan": "^1.9.10",
     "@types/node": "^25.0.9",
     "@types/pg": "^8.16.0",
     "dotenv": "^17.2.3",
@@ -35,17 +41,26 @@
     "express": "^5.2.1",
     "install": "^0.13.0",
     "jest": "^30.2.0",
+    "morgan": "^1.10.1",
     "nodemon": "^3.1.11",
     "npm": "^11.7.0",
     "prettier": "^3.8.0",
-    "prisma": "^7.2.0",
+    "prisma": "^7.3.0",
     "ts-jest": "^29.4.6",
     "ts-node": "^10.9.2",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   },
   "dependencies": {
-    "@prisma/adapter-pg": "^7.2.0",
-    "@prisma/client": "^7.2.0",
-    "pg": "^8.17.1"
+    "@prisma/adapter-pg": "^7.3.0",
+    "@prisma/client": "^7.3.0",
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
+    "express-rate-limit": "^8.2.1",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.3",
+    "pg": "^8.17.1",
+    "winston": "^3.19.0",
+    "zod": "^4.3.5"
   }
 }

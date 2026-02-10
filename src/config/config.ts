@@ -2,14 +2,9 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-interface Config {
-  port: number;
-  nodeEnv: string;
-}
+export const PORT = Number(process.env.PORT) || 3000;
+export const NODE_ENV = process.env.NODE_ENV || 'development';
+export const DEVELOPMENT = NODE_ENV === 'development';
 
-const config: Config = {
-  port: Number(process.env.PORT) || 3000,
-  nodeEnv: process.env.NODE_ENV || 'development',
-};
-
-export default config;
+export const JWT_SECRET = process.env.JWT_SECRET;
+export const JWT_EXPIRY_TIME = process.env.JWT_EXPIRY_TIME as any;
