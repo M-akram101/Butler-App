@@ -30,6 +30,44 @@ on it analytics by the end of the month, and each account is independent from th
 
 ## Installation
 
+# Install dependencies
+
 - `npm install`
+
+# Create the database (PostgreSQL)
+
+- Run this query `createdb butler-db`
+
+# Create Enviroment variables file and fill with you db credentials
+
+- `cp sample.env .env`
+
+# Generate Prisma Client
+
+- `npm run prisma:gen`
+
+# Run Database Migrations
+
+- `npm run prisma:migrate`
+
+# Start the server
+
+- `npm run dev`
+
+## Available scripts
+
+- `npm run dev` # Start development server
+- `npm run build` # Compile TypeScript
+- `npm start` # Run compiled app
+- `npm run lint` # Run ESLint
+- `npm test` # Run tests
+- `npm run` test:watch # Run tests in watch mode
+- `npm run` prisma:gen # Generate Prisma client
+- `npm run` prisma:migrate# Run Prisma migrations
+
+## Database Design
+
+- N.B. some fields may have been added in the code, but entities themselves are not changed
+  ![Database Design](https://drive.google.com/file/d/1GXZYe5xskgWnhs4pYl6AOZ7aVCpRsUUX/view?usp=sharing)
 
 ## Usage
