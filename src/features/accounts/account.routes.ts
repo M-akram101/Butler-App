@@ -5,6 +5,8 @@ import { authenticate } from '../../middleware/authMiddleware';
 import {
   createAccountHandler,
   deleteAccountHandler,
+  getAccountHandler,
+  getAllAccountsHandler,
   updateAccountHandler,
 } from './account.controller';
 import {
@@ -21,12 +23,12 @@ router.post(
   validate(AccountCreateSchema),
   createAccountHandler,
 );
-router.get('/', authenticate(), getAllAccountsByUserIdHandler);
+router.get('/', authenticate(), getAllAccountsHandler);
 router.get(
   '/:id',
   authenticate(),
   validateParams(accountIdParamSchema),
-  getAccountByIdHandler,
+  getAccountHandler,
 );
 router.patch(
   '/:id',
