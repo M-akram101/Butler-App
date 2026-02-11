@@ -5,11 +5,14 @@ import { authenticate } from '../../middleware/authMiddleware';
 import {
   createAccountHandler,
   deleteAccountHandler,
-  getAccountByIdHandler,
-  getAllAccountsByUserIdHandler,
   updateAccountHandler,
 } from './account.controller';
-import { AccountCreateSchema, AccountUpdateSchema } from './account.dto';
+import {
+  AccountCreateSchema,
+  accountIdParamSchema,
+  AccountUpdateSchema,
+} from './account.dto';
+import { validateParams } from '../../middleware/validateParams';
 
 const router = Router();
 router.post(
@@ -19,13 +22,24 @@ router.post(
   createAccountHandler,
 );
 router.get('/', authenticate(), getAllAccountsByUserIdHandler);
-router.get('/:id', authenticate(), getAccountByIdHandler);
-router.patch(
-  '/me',
+router.get(
+  '/:id',
   authenticate(),
+  validateParams(accountIdParamSchema),
+  getAccountByIdHandler,
+);
+router.patch(
+  '/:id',
+  authenticate(),
+  validateParams(accountIdParamSchema),
   validate(AccountUpdateSchema),
   updateAccountHandler,
 );
-router.delete('/me', authenticate(), deleteAccountHandler);
+router.delete(
+  '/:id',
+  authenticate(),
+  validateParams(accountIdParamSchema),
+  deleteAccountHandler,
+);
 
 export default router;

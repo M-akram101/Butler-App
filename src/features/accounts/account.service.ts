@@ -39,6 +39,7 @@ export const getAllAccountsByUserId = async (userId: string) => {
   const accounts = await prisma.account.findMany({
     where: { userId, isDeleted: false },
     select: {
+      id: true,
       name: true,
       type: true,
       address: true,
@@ -52,19 +53,26 @@ export const getAllAccountsByUserId = async (userId: string) => {
 export const getAccountById = async (id: string) => {
   const account = await prisma.account.findFirst({
     where: { id, isDeleted: false },
+    select: {
+      name: true,
+      type: true,
+      address: true,
+      capAmount: true,
+      userId: true,
+    },
   });
 
   return account;
 };
 
-export const updateAccount = async (userId: string, data: UpdateAccountDTO) => {
+export const updateAccountById = async (id: string, data: UpdateAccountDTO) => {
   const cleanedData = cleanForPrismaUpdate(data);
 
   if (Object.keys(cleanedData).length === 0)
     throw new AppError('No fields to update', 400);
 
   const updatedAccount = await prisma.account.update({
-    where: { id: userId },
+    where: { id },
     data: cleanedData,
     select: {
       name: true,
@@ -77,9 +85,9 @@ export const updateAccount = async (userId: string, data: UpdateAccountDTO) => {
   return updatedAccount;
 };
 
-export const deleteAccount = async (userId: string) => {
+export const deleteAccountById = async (id: string) => {
   const updatedAccount = await prisma.account.update({
-    where: { id: userId },
+    where: { id },
     data: { isDeleted: true },
   });
 

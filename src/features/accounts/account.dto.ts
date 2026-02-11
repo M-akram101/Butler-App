@@ -1,6 +1,5 @@
 import * as z from 'zod';
 import { AccountType } from '@prisma/client';
-import { id } from 'zod/v4/locales';
 
 const AccountSchema = z.object({
   name: z.string().min(1, 'First name is required'),
@@ -17,3 +16,8 @@ export const AccountUpdateSchema = AccountSchema.partial();
 export type CreateAccountDTO = z.infer<typeof AccountCreateSchema>;
 export type CreateAccountOutDTO = z.infer<typeof AccountCreateOutSchema>;
 export type UpdateAccountDTO = z.infer<typeof AccountUpdateSchema>;
+
+// Params Schema
+export const accountIdParamSchema = z.object({
+  id: z.string().uuid(),
+});
