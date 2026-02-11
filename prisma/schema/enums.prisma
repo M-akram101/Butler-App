@@ -64,3 +64,9 @@ enum MaritalStatus {
     WIDOWED
     PREFER_NOT_TO_SAY
 }
+enum AccountType {
+    HOME
+    PERSONAL
+    ORGANIZATION
+    OTHER
+}

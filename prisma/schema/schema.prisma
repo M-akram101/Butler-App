@@ -18,8 +18,6 @@ datasource db {
 
 /* ===== MODELS ===== */
 
-
-
 model User {
   id            String        @id @default(uuid())
   firstName     String        @map("first_name") @db.VarChar(50)
@@ -28,16 +26,48 @@ model User {
   role          Role          
   address       String        @db.VarChar(100)
   email         String        @unique
-  phoneNumber   String        @unique
+  phoneNumber   String        @unique @map("phone_number")
   industry      Industry
   jobTitle      String        @map("job_title") @db.VarChar(50)
   maritalStatus MaritalStatus @map("marital_status")
   dateOfBirth   DateTime      @map("date_of_birth")
   gender        Gender
-  isApproved    Boolean       @default(false)
-  isActive      Boolean       @default(false)
+  isApproved    Boolean       @default(false)  @map("is_approved")
+  isActive      Boolean       @default(false)  @map("is_active")
+  isDeleted     Boolean       @default(false)  @map("is_deleted")
+  createdAt     DateTime      @default(now())  @map("created_at")
+  passwordChangedAt DateTime?   @map("password_changed_at")
+   // Relations outside
+  accounts Account[] @relation("UserAccounts")  // accountId
+  receipts Receipt[] @relation("UserReceipts")
+}
+
+model Account {
+  id            String        @id @default(uuid())
+  name String @db.VarChar(50)
+  type AccountType @default(HOME)
+  address String @db.VarChar(100)
+  capAmount Int @map("cap_amount")
+  createdAt DateTime @default(now()) @map("created_at")
   isDeleted     Boolean       @default(false)
-  createdAt     DateTime      @default(now())
-  passwordChangedAt DateTime?  
-  // accountId
+  userId String @map("user_id")
+  // Relations inside
+  user User @relation("UserAccounts",fields: [userId], references:[id])
+  // Relations outside
+  receipt Receipt[] @relation("AccountReceipts")
+}
+
+model Receipt {
+    id    String    @id @default(uuid())
+    //storeid
+    totalPrice Int @map("total_price")
+    
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime? @map("updated_at")
+    accountId String @map("account_id")
+    uploadedBy String @map("uploaded_by")
+    isDeleted     Boolean       @default(false)  @map("is_deleted")
+    // Relations inside
+    account Account @relation("AccountReceipts",fields: [accountId], references:[id])
+    user User @relation("UserReceipts",fields: [uploadedBy], references:[id])
 }

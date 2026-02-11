@@ -2,12 +2,6 @@ import app from './app';
 import { PORT } from './config/config';
 import { coreLogger } from './logger/core';
 
-<<<<<<< HEAD
-
-app.listen(config.port, () => {
-  console.log(`Server running on port ${config.port}`);
-});
-=======
 /**
  * Catch sync errors FIRST
  */
@@ -54,4 +48,3 @@ process.on('SIGINT', () => {
   coreLogger.warn('SIGINT received. Shutting down gracefully');
   server.close(() => process.exit(0));
 });
->>>>>>> development

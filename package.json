@@ -12,6 +12,7 @@
     "test:watch": "jest --watch",
     "prisma:gen": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
+    "prisma:reset": "prisma migrate reset --force",
     "docker:build": "docker build -t butler-app .",
     "docker:run": "docker run -p 3000:3000 butler-app"
   },
