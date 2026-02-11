@@ -6,7 +6,7 @@ export const coreLogger = winston.createLogger({
   level: process.env.LOG_LEVEL || 'info',
   format: combine(timestamp(), errors({ stack: true }), json()),
   transports: [
-    new Console(),
+    // new Console(),
     new File({ filename: 'logs/error.log', level: 'error' }),
     new File({ filename: 'logs/app.log' }),
   ],

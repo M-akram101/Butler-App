@@ -5,21 +5,17 @@ import { AppError } from '../utils/appError';
 export const errorLogger = (
   err: unknown,
   req?: Request,
-  extra?: Record<string, any>,
+  extra?: { level?: 'error' | 'warn' } & Record<string, any>,
 ) => {
-  const isAppError = err instanceof AppError;
+  const level = extra?.level ?? 'error';
 
-  const level = isAppError ? 'warn' : 'error';
-  const label = isAppError ? 'Operational error,' : 'Unhandled error,';
-
-  coreLogger[level](label, {
+  coreLogger[level]('Unhandled error', {
     requestId: req?.requestId,
     message: err instanceof Error ? err.message : String(err),
-    statusCode: isAppError ? err.statusCode : 500,
     path: req?.url,
     method: req?.method,
     userId: (req as any)?.user?.id,
-    ...(!isAppError && err instanceof Error ? { stack: err.stack } : {}),
-    ...(extra ? sanitize(extra) : {}),
+    ...(err instanceof Error ? { stack: err.stack } : {}),
+    ...(extra ?? {}),
   });
 };
