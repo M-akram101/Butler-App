@@ -25,6 +25,13 @@ export const errorHandler = (
   let logLevel: 'error' | 'warn' = 'error';
 
   // Prisma errors
+  if (err instanceof Error && err.name === 'PrismaClientValidationError') {
+    statusCode = 400;
+    message = 'Invalid query parameters';
+    status = ApiResponseStatus.BadRequest;
+    logLevel = 'warn';
+  }
+
   if (err && typeof err === 'object' && 'code' in err) {
     const prismaErr = err as PrismaLikeError;
 

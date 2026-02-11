@@ -6,7 +6,7 @@ import { getUserByEmail } from '../users/user.service';
 import { login, signUp } from './auth.service';
 
 export const signUpHandler = catchAsync(async (req, res, next) => {
-  const data: SignUpDTO = req.body;
+  const data: SignUpDTO = { ...req.body };
 
   const user = await signUp(data); // service handles hashing + DB
 

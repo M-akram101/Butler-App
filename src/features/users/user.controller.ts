@@ -1,7 +1,6 @@
-import { success } from 'zod';
 import { sendSuccess } from '../../utils/apiResponse';
 import { catchAsync } from '../../utils/catchAsync';
-import type { UpdateUserDTO, UserResponseDTO } from './user.dto';
+import type { UpdateUserDTO } from './user.dto';
 import { deleteUser, getAllusers, updateUser } from './user.service';
 
 export const getAllUsersHandler = catchAsync(async (req, res, next) => {
