@@ -71,4 +71,16 @@ model Receipt {
     // Relations inside
     account Account @relation("AccountReceipts",fields: [accountId], references:[id])
     user User @relation("UserReceipts",fields: [uploadedBy], references:[id])
+    // Relations outside
+    receiptItems ReceiptItems[] @relation("ReceiptItems")
+}
+
+model ReceiptItems {
+  id String @id @default(uuid())
+  quantity Int 
+  price Decimal 
+  // Relations inside
+  receiptId String @map("receipt_id")
+  receipt Receipt @relation("ReceiptItems", fields:[receiptId],references:[id])
+
 }
