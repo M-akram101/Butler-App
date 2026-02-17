@@ -47,6 +47,7 @@ model Account {
   name String @db.VarChar(50)
   type AccountType @default(HOME)
   address String @db.VarChar(100)
+  area Area @default(HELIOPOLIS)
   capAmount Int @map("cap_amount")
   createdAt DateTime @default(now()) @map("created_at")
   isDeleted     Boolean       @default(false)

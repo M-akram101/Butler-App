@@ -1,9 +1,10 @@
 import * as z from 'zod';
-import { AccountType } from '@prisma/client';
+import { AccountType, Area } from '@prisma/client';
 
 const AccountSchema = z.object({
   name: z.string().min(1, 'First name is required'),
   type: z.nativeEnum(AccountType),
+  area: z.nativeEnum(Area),
   address: z.string().max(100, 'Address must be under 100 characters'),
   capAmount: z.number(),
   //   userId: z.string(),

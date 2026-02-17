@@ -1,6 +1,7 @@
 import { prisma } from '../../prismaClient';
 import { AppError } from '../../utils/appError';
 import { cleanForPrismaUpdate } from '../../utils/stripUndefined';
+import { getAccountForValidation } from '../accounts/account.service';
 import type {
   CreateReceiptDTO,
   CreateReceiptOutDTO,
@@ -11,6 +12,12 @@ export const createReceipt = async (
   data: CreateReceiptDTO,
   userId: string,
 ): Promise<CreateReceiptOutDTO> => {
+  // Validate account exists
+  const accountData = await getAccountForValidation(data.accountId);
+  // Validate user has this account
+  if (userId !== accountData.userId)
+    throw new AppError('Invalid Account Id', 400);
+
   const newReceipt = await prisma.receipt.create({
     data: {
       totalPrice: data.totalPrice,
@@ -56,6 +63,9 @@ export const getReceiptById = async (id: string) => {
       uploadedBy: true,
     },
   });
+  if (!receipt) {
+    throw new AppError('Receipt not found', 404);
+  }
 
   return receipt;
 };

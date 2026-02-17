@@ -3,14 +3,15 @@ import * as z from 'zod';
 const ReceiptSchema = z.object({
   totalPrice: z.number(),
   accountId: z.string().uuid(),
-  uploadedBy: z.string().uuid(),
 });
 
 export const ReceiptCreateSchema = ReceiptSchema;
-export const ReceiptCreateOutSchema = ReceiptSchema.extend({ id: z.string() });
+export const ReceiptCreateOutSchema = ReceiptSchema.extend({
+  id: z.string().uuid(),
+  uploadedBy: z.string().uuid(),
+});
 export const ReceiptUpdateSchema = ReceiptSchema.partial().omit({
   accountId: true,
-  uploadedBy: true,
 });
 
 export type CreateReceiptDTO = z.infer<typeof ReceiptCreateSchema>;
