@@ -1,3 +1,4 @@
+import { number } from 'zod';
 import { prisma } from '../../prismaClient';
 import { AppError } from '../../utils/appError';
 import { cleanForPrismaUpdate } from '../../utils/stripUndefined';
@@ -23,7 +24,15 @@ export const createReceipt = async (
       totalPrice: data.totalPrice,
       accountId: data.accountId,
       uploadedBy: userId,
+      receiptItems: {
+        create: data.receiptItems.map((item) => ({
+          name: item.name,
+          quantity: item.quantity,
+          price: item.price,
+        })),
+      },
     },
+    include: { receiptItems: true },
   });
 
   // Map to DTO
@@ -32,12 +41,27 @@ export const createReceipt = async (
     uploadedBy: newReceipt.uploadedBy,
     totalPrice: newReceipt.totalPrice,
     accountId: newReceipt.accountId,
+    receiptItems: newReceipt.receiptItems.map((item) => ({
+      id: item.id,
+      name: item.name,
+      quantity: item.quantity,
+      price: Number(item.price),
+    })),
   };
 
   return receiptData;
 };
 
-export const getAllReceiptsByAccountId = async (accountId: string) => {
+export const getAllReceiptsByAccountId = async (
+  accountId: string,
+  userId: string,
+) => {
+  // // Validate account exists
+  // const accountData = await getAccountForValidation(accountId);
+  // // Validate user has this account
+  // if (userId !== accountData.userId)
+  //   throw new AppError('Invalid Account Id', 400);
+
   const receipts = await prisma.receipt.findMany({
     where: { accountId, isDeleted: false },
     select: {
@@ -45,6 +69,7 @@ export const getAllReceiptsByAccountId = async (accountId: string) => {
       totalPrice: true,
       accountId: true,
       uploadedBy: true,
+      receiptItems: true,
     },
   });
 
@@ -61,6 +86,13 @@ export const getReceiptById = async (id: string) => {
       totalPrice: true,
       accountId: true,
       uploadedBy: true,
+      receiptItems: {
+        select: {
+          name: true,
+          quantity: true,
+          price: true,
+        },
+      },
     },
   });
   if (!receipt) {

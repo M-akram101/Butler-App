@@ -73,10 +73,13 @@ model Receipt {
     user User @relation("UserReceipts",fields: [uploadedBy], references:[id])
     // Relations outside
     receiptItems ReceiptItems[] @relation("ReceiptItems")
+
+    @@index([accountId, isDeleted])
 }
 
 model ReceiptItems {
   id String @id @default(uuid())
+  name String 
   quantity Int 
   price Decimal 
   // Relations inside

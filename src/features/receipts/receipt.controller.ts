@@ -19,7 +19,8 @@ export const createReceiptHandler = catchAsync(async (req, res, next) => {
 
 export const getAllReceiptsHandler = catchAsync(async (req, res, next) => {
   const accountId = req.params.id as any;
-  const receipts = await getAllReceiptsByAccountId(accountId);
+  const userId = res.locals.id;
+  const receipts = await getAllReceiptsByAccountId(accountId, userId);
   sendSuccess(res, receipts);
 });
 
