@@ -17,7 +17,7 @@ export const ReceiptItemsCreateSchema = ReceiptItemsSchema;
 // export const ReceiptItemsCreateOutSchema = ReceiptItemsSchema.extend({
 //   id: z.string().uuid(),
 // });
-export const ReceiptItemsOutSchema = ReceiptItemsCreateSchema.extend({
+export const  ReceiptItemsOutSchema = ReceiptItemsCreateSchema.extend({
   id: z.string().uuid(),
 });
 

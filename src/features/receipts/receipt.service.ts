@@ -56,11 +56,11 @@ export const getAllReceiptsByAccountId = async (
   accountId: string,
   userId: string,
 ) => {
-  // // Validate account exists
-  // const accountData = await getAccountForValidation(accountId);
-  // // Validate user has this account
-  // if (userId !== accountData.userId)
-  //   throw new AppError('Invalid Account Id', 400);
+  // Validate account exists
+  const accountData = await getAccountForValidation(accountId);
+  // Validate user has this account
+  if (userId !== accountData.userId)
+    throw new AppError('Invalid Account Id', 400);
 
   const receipts = await prisma.receipt.findMany({
     where: { accountId, isDeleted: false },
@@ -116,6 +116,7 @@ export const updateReceiptById = async (id: string, data: UpdateReceiptDTO) => {
       totalPrice: true,
       accountId: true,
       uploadedBy: true,
+      receiptItems: true,
     },
   });
 
