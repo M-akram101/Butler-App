@@ -47,6 +47,7 @@ model Account {
   name String @db.VarChar(50)
   type AccountType @default(HOME)
   address String @db.VarChar(100)
+  area Area @default(HELIOPOLIS)
   capAmount Int @map("cap_amount")
   createdAt DateTime @default(now()) @map("created_at")
   isDeleted     Boolean       @default(false)
@@ -70,4 +71,19 @@ model Receipt {
     // Relations inside
     account Account @relation("AccountReceipts",fields: [accountId], references:[id])
     user User @relation("UserReceipts",fields: [uploadedBy], references:[id])
+    // Relations outside
+    receiptItems ReceiptItems[] @relation("ReceiptItems")
+
+    @@index([accountId, isDeleted])
+}
+
+model ReceiptItems {
+  id String @id @default(uuid())
+  name String 
+  quantity Int 
+  price Decimal 
+  // Relations inside
+  receiptId String @map("receipt_id")
+  receipt Receipt @relation("ReceiptItems", fields:[receiptId],references:[id])
+
 }
