@@ -25,7 +25,12 @@ router.post(
   validate(ReceiptCreateSchema),
   createReceiptHandler,
 );
-router.get('/', authenticate(), getAllReceiptsHandler);
+router.get(
+  '/account-receipts/:id',
+  authenticate(),
+  validateParams(receiptIdParamSchema),
+  getAllReceiptsHandler,
+);
 router.get(
   '/:id',
   authenticate(),

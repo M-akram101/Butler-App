@@ -19,6 +19,7 @@ export const createAccount = async (
       type: data.type,
       address: data.address,
       capAmount: data.capAmount,
+      area: data.area,
       userId,
     },
   });
@@ -30,6 +31,7 @@ export const createAccount = async (
     type: newAccount.type,
     address: newAccount.address,
     capAmount: newAccount.capAmount,
+    area: newAccount.area,
   };
 
   return accountData;
@@ -43,6 +45,7 @@ export const getAllAccountsByUserId = async (userId: string) => {
       name: true,
       type: true,
       address: true,
+      area: true,
       capAmount: true,
     },
   });
@@ -57,11 +60,27 @@ export const getAccountById = async (id: string) => {
       name: true,
       type: true,
       address: true,
+      area: true,
       capAmount: true,
       userId: true,
     },
   });
+  if (!account) {
+    throw new AppError('Account not found', 404);
+  }
 
+  return account;
+};
+
+// Specific for validating user has this account
+export const getAccountForValidation = async (id: string) => {
+  const account = await prisma.account.findFirst({
+    where: { id, isDeleted: false },
+    select: {
+      userId: true,
+    },
+  });
+  if (!account) throw new AppError('Invalid accountId !');
   return account;
 };
 
@@ -78,6 +97,7 @@ export const updateAccountById = async (id: string, data: UpdateAccountDTO) => {
       name: true,
       type: true,
       address: true,
+      area: true,
       capAmount: true,
     },
   });

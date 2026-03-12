@@ -12,6 +12,7 @@ import { requestId } from './middleware/requestId';
 import authRouter from './features/auth/auth.routes';
 import userRouter from './features/users/user.routes';
 import accountRouter from './features/accounts/account.routes';
+import receiptRouter from './features/receipts/receipt.routes';
 const app = express();
 
 //// Security Middlewares
@@ -40,6 +41,7 @@ app.use(requestLogger);
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/accounts', accountRouter);
+app.use('/api/v1/receipts', receiptRouter);
 
 // Global error handler (should be after routes)
 app.use(routeNotFound);
