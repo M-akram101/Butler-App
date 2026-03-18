@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import { validate } from '../../middleware/validateRequest';
+import { validate } from '../../middleware/validateRequest.middleware';
 
-import { authenticate } from '../../middleware/authMiddleware';
+import { authenticate } from '../../middleware/auth.middleware';
 import {
   createReceiptHandler,
   deleteReceiptHandler,
@@ -10,7 +10,7 @@ import {
   updateReceiptHandler,
 } from './receipt.controller';
 
-import { validateParams } from '../../middleware/validateParams';
+import { validateParams } from '../../middleware/validateParams.middleware';
 import {
   ReceiptCreateSchema,
   receiptIdParamSchema,

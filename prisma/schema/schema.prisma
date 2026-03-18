@@ -62,12 +62,16 @@ model Receipt {
     id    String    @id @default(uuid())
     //storeid
     totalPrice Int @map("total_price")
+    // For Now, but later I may remove them and try to match to storeId
+    merchantName String? @map("merchant_name")
+    merchantAddress String? @map("merchant_address")
     
     createdAt DateTime @default(now()) @map("created_at")
     updatedAt DateTime? @map("updated_at")
     accountId String @map("account_id")
     uploadedBy String @map("uploaded_by")
     isDeleted     Boolean       @default(false)  @map("is_deleted")
+
     // Relations inside
     account Account @relation("AccountReceipts",fields: [accountId], references:[id])
     user User @relation("UserReceipts",fields: [uploadedBy], references:[id])
@@ -80,8 +84,11 @@ model Receipt {
 model ReceiptItems {
   id String @id @default(uuid())
   name String 
+  itemSize String? @map("item_size")
   quantity Int 
   price Decimal 
+
+
   // Relations inside
   receiptId String @map("receipt_id")
   receipt Receipt @relation("ReceiptItems", fields:[receiptId],references:[id])

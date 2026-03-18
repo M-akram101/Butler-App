@@ -10,6 +10,7 @@ const ReceiptItemsSchema = z.object({
   quantity: z.number().int().positive(),
   price: z.number().positive(),
   name: z.string().min(1),
+  itemSize: z.string().min(1).max(30).nullable(),
   //   receiptId: z.string().uuid(),
 });
 
@@ -17,7 +18,7 @@ export const ReceiptItemsCreateSchema = ReceiptItemsSchema;
 // export const ReceiptItemsCreateOutSchema = ReceiptItemsSchema.extend({
 //   id: z.string().uuid(),
 // });
-export const  ReceiptItemsOutSchema = ReceiptItemsCreateSchema.extend({
+export const ReceiptItemsOutSchema = ReceiptItemsCreateSchema.extend({
   id: z.string().uuid(),
 });
 
