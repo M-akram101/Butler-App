@@ -1,4 +1,5 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { safeParseJSON } from '../utils/aiTextParser';
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 
@@ -11,11 +12,11 @@ You are a JSON API. Only return valid JSON. No explanation.
 Schema:
 {
   merchantName: string,
-  merhantAddress: string,
-  items: [
+  merchantAddress: string,
+  receiptItems: [
     { name: string, quantity: number, price: number, itemSize: string }
   ],
-  totalPrice: string
+  totalPrice: number
 }
 
 Receipt:
@@ -25,6 +26,6 @@ ${text}
   const result = await model.generateContent(prompt);
   const response = await result.response;
   const output = response.text();
-
-  return JSON.parse(output);
+  console.log('--------------------------------', 'output:', output);
+  return JSON.parse(safeParseJSON(output));
 };

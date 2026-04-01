@@ -5,6 +5,8 @@ import { confirmReceipt, scanReceipt } from './receiptScan.service';
 
 export const scanReceiptHandler = catchAsync(async (req, res) => {
   const file = req.file;
+  const accountId = req.params.accountId;
+  if (!accountId) throw new AppError('Missing account id !', 401);
 
   if (!file) {
     throw new AppError('File is required', 400);

@@ -8,6 +8,8 @@ export const validate = (schema: ZodSchema) =>
       req.body = await schema.parseAsync(req.body);
       next();
     } catch (error) {
+      console.log('req.body: ', req.body);
+
       if (error instanceof ZodError) {
         return res.status(400).json({
           status: 'fail',

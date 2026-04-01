@@ -10,7 +10,7 @@ import type {
 
 export const scanReceipt = async (file: Express.Multer.File) => {
   const text = await extractTextFromImage(file.path);
-
+  console.log('Text from Ocr: ', text);
   const parsed = await parseReceipt(text);
 
   return parsed;

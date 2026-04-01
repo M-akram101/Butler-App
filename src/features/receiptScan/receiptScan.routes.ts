@@ -11,7 +11,7 @@ import { ReceiptCreateSchema } from '../receipts/receipt.dto';
 
 const router = Router();
 router.post(
-  '/scan',
+  '/scan/:accountId',
   authenticate(),
   upload.single('file'), // multer
   scanReceiptHandler,
