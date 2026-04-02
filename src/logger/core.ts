@@ -12,10 +12,12 @@ export const coreLogger = winston.createLogger({
   ],
 });
 
-if (process.env.NODE_ENV !== 'production') {
-  coreLogger.add(
-    new winston.transports.Console({
-      format: simple(),
-    }),
-  );
-}
+// if (process.env.NODE_ENV !== 'production') {
+//   console.log('-------------------Inside logger');
+//   coreLogger.add(
+//     new winston.transports.Console({
+//       format: simple(),
+//     }),
+//   );
+
+// }

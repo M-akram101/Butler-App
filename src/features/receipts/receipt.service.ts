@@ -22,11 +22,14 @@ export const createReceipt = async (
   const newReceipt = await prisma.receipt.create({
     data: {
       totalPrice: data.totalPrice,
+      merchantName: data.merchantName,
+      merchantAddress: data.merchantAddress,
       accountId: data.accountId,
       uploadedBy: userId,
       receiptItems: {
         create: data.receiptItems.map((item) => ({
           name: item.name,
+          itemSize: item.itemSize,
           quantity: item.quantity,
           price: item.price,
         })),
@@ -38,12 +41,15 @@ export const createReceipt = async (
   // Map to DTO
   const receiptData: CreateReceiptOutDTO = {
     id: newReceipt.id,
+    merchantName: newReceipt.merchantName,
+    merchantAddress: newReceipt.merchantAddress,
     uploadedBy: newReceipt.uploadedBy,
     totalPrice: newReceipt.totalPrice,
     accountId: newReceipt.accountId,
     receiptItems: newReceipt.receiptItems.map((item) => ({
       id: item.id,
       name: item.name,
+      itemSize: item.itemSize,
       quantity: item.quantity,
       price: Number(item.price),
     })),

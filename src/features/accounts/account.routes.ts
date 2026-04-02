@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import { validate } from '../../middleware/validateRequest';
+import { validate } from '../../middleware/validateRequest.middleware';
 
-import { authenticate } from '../../middleware/authMiddleware';
+import { authenticate } from '../../middleware/auth.middleware';
 import {
   createAccountHandler,
   deleteAccountHandler,
@@ -14,7 +14,7 @@ import {
   accountIdParamSchema,
   AccountUpdateSchema,
 } from './account.dto';
-import { validateParams } from '../../middleware/validateParams';
+import { validateParams } from '../../middleware/validateParams.middleware';
 
 const router = Router();
 router.post(

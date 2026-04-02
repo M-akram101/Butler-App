@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { validate } from '../../middleware/validateRequest';
+import { validate } from '../../middleware/validateRequest.middleware';
 
 import {
   deleteUserHandler,
@@ -7,7 +7,7 @@ import {
   getUserHandler,
   updateUserHandler,
 } from './user.controller';
-import { authenticate } from '../../middleware/authMiddleware';
+import { authenticate } from '../../middleware/auth.middleware';
 import { UpdateUserSchema } from './user.dto';
 
 const router = Router();

@@ -1,7 +1,6 @@
 import { coreLogger } from './core';
 import type { Request } from 'express';
-import { sanitize } from './sanitize';
-import { AppError } from '../utils/appError';
+
 export const errorLogger = (
   err: unknown,
   req?: Request,
