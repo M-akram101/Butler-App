@@ -4,6 +4,8 @@ import jwt from 'jsonwebtoken';
 import { JWT_SECRET } from '../config/config';
 import { catchAsync } from '../utils/catchAsync';
 import { getUserRoleById } from '../features/auth/auth.service';
+import type { Role } from '@prisma/client';
+
 export const authenticate = () =>
   catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const token = req.cookies?.token;
@@ -41,5 +43,12 @@ export const authenticate = () =>
 
     // add condition to check user didnt change pass after token issuance
 
+    next();
+  });
+
+export const authorize = (roles: [string]) =>
+  catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const { role } = res.locals.user.role;
+    if (!roles.includes(role)) return new AppError('Invalid Credentials', 401);
     next();
   });
