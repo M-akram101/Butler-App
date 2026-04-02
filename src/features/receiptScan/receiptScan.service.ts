@@ -20,24 +20,18 @@ export const confirmReceipt = async (
   data: CreateReceiptDTO,
   userId: string,
 ) => {
-  const { accountId, receiptItems, totalPrice } = data;
-
+  const { accountId } = data;
+  console.log('accountId: ', accountId);
   //  Validate account
   const accountData = await getAccountForValidation(accountId);
+  console.log({
+    'userId from account': accountData.userId,
+    'userId from body': userId,
+  });
 
   if (userId !== accountData.userId) {
     throw new AppError('Invalid Account Id', 400);
   }
-
-  // //  Validate totals (IMPORTANT)
-  // const calculatedTotal = items.reduce(
-  //   (sum, i) => sum + i.price * i.quantity,
-  //   0
-  // );
-
-  // if (Math.abs(calculatedTotal - totalPrice) > 1) {
-  //   throw new AppError("Total mismatch", 400);
-  // }
 
   //  Create receipt
   const newReceipt = await prisma.receipt.create({

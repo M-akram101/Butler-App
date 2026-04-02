@@ -12,13 +12,14 @@ export const scanReceiptHandler = catchAsync(async (req, res) => {
     throw new AppError('File is required', 400);
   }
 
-  const result = await scanReceipt(file);
-
+  const scanResult = await scanReceipt(file);
+  const result = { ...scanResult, accountId };
   sendSuccess(res, result);
 });
 
 export const confirmReceiptHandler = catchAsync(async (req, res) => {
-  const userId = res.locals.id;
+  const userId = res.locals.user.id;
+  console.log('This is userId in controlllerrrrrrrrrrrrrrrrrrrr:', userId);
   const data = req.body;
 
   const receipt = await confirmReceipt(data, userId);

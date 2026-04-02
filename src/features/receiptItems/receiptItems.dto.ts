@@ -7,10 +7,10 @@ import * as z from 'zod';
 //   receiptId String @map("receipt_id")
 
 const ReceiptItemsSchema = z.object({
+  name: z.string().min(1),
   quantity: z.number().int().positive(),
   price: z.number().positive(),
-  name: z.string().min(1),
-  itemSize: z.string().min(1).max(30).nullable(),
+  itemSize: z.string().max(16).optional(),
   //   receiptId: z.string().uuid(),
 });
 

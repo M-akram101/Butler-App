@@ -92,5 +92,6 @@ model ReceiptItems {
   // Relations inside
   receiptId String @map("receipt_id")
   receipt Receipt @relation("ReceiptItems", fields:[receiptId],references:[id])
+  @@index([receiptId])
 
 }

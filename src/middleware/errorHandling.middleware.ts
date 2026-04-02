@@ -118,7 +118,7 @@ export const errorHandler = (
 
   // Dev logging
   if (DEVELOPMENT || statusCode >= 500) {
-    console.error(err);
+    console.error({ 'Status: ': status, 'Message ': message, statusCode });
   }
 
   // Centralized logging (ONCE)
