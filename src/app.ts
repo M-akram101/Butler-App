@@ -4,15 +4,16 @@ import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import cookieParser from 'cookie-parser';
 
-import { errorHandler } from './middleware/errorHandling';
-import { requestLogger } from './middleware/requestLogger';
-import { routeNotFound } from './middleware/routeNotFound';
-import { requestId } from './middleware/requestId';
+import { errorHandler } from './middleware/errorHandling.middleware';
+import { requestLogger } from './middleware/requestLogger.middleware';
+import { routeNotFound } from './middleware/routeNotFound.middleware';
+import { requestId } from './middleware/requestId.middleware';
 // Features Routers
 import authRouter from './features/auth/auth.routes';
 import userRouter from './features/users/user.routes';
 import accountRouter from './features/accounts/account.routes';
 import receiptRouter from './features/receipts/receipt.routes';
+import receiptScanRouter from './features/receiptScan/receiptScan.routes';
 const app = express();
 
 //// Security Middlewares
@@ -42,7 +43,7 @@ app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/accounts', accountRouter);
 app.use('/api/v1/receipts', receiptRouter);
-
+app.use('/api/v1/receiptScan', receiptScanRouter);
 // Global error handler (should be after routes)
 app.use(routeNotFound);
 app.use(errorHandler);

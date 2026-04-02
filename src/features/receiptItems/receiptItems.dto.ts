@@ -7,9 +7,10 @@ import * as z from 'zod';
 //   receiptId String @map("receipt_id")
 
 const ReceiptItemsSchema = z.object({
+  name: z.string().min(1),
   quantity: z.number().int().positive(),
   price: z.number().positive(),
-  name: z.string().min(1),
+  itemSize: z.string().max(16).optional(),
   //   receiptId: z.string().uuid(),
 });
 
@@ -17,7 +18,7 @@ export const ReceiptItemsCreateSchema = ReceiptItemsSchema;
 // export const ReceiptItemsCreateOutSchema = ReceiptItemsSchema.extend({
 //   id: z.string().uuid(),
 // });
-export const  ReceiptItemsOutSchema = ReceiptItemsCreateSchema.extend({
+export const ReceiptItemsOutSchema = ReceiptItemsCreateSchema.extend({
   id: z.string().uuid(),
 });
 
