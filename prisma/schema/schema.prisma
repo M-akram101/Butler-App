@@ -23,7 +23,7 @@ model User {
   firstName     String        @map("first_name") @db.VarChar(50)
   lastName      String        @map("last_name") @db.VarChar(50)
   password      String        @db.VarChar(100)
-  role          Role          
+          
   address       String        @db.VarChar(100)
   email         String        @unique
   phoneNumber   String        @unique @map("phone_number")
@@ -38,10 +38,22 @@ model User {
   createdAt     DateTime      @default(now())  @map("created_at")
   passwordChangedAt DateTime?   @map("password_changed_at")
    // Relations outside
-  accounts Account[] @relation("UserAccounts")  // accountId
   receipts Receipt[] @relation("UserReceipts")
+  userAccounts UserAccount[] 
 }
 
+model UserAccount {
+id            String        @id @default(uuid())
+userId String @map("user_id")
+accountId String @map("account_id")
+role          Role  @default(CONTRIBUTOR)
+user      User     @relation(fields: [userId], references: [id])
+account   Account  @relation(fields: [accountId], references: [id])
+createdAt DateTime @default(now())
+isDeleted     Boolean       @default(false)
+
+@@unique([userId, accountId]) 
+}
 model Account {
   id            String        @id @default(uuid())
   name String @db.VarChar(50)
@@ -51,11 +63,10 @@ model Account {
   capAmount Int @map("cap_amount")
   createdAt DateTime @default(now()) @map("created_at")
   isDeleted     Boolean       @default(false)
-  userId String @map("user_id")
-  // Relations inside
-  user User @relation("UserAccounts",fields: [userId], references:[id])
+  
   // Relations outside
   receipt Receipt[] @relation("AccountReceipts")
+  userAccounts UserAccount[] 
 }
 
 model Receipt {
