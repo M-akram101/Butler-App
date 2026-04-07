@@ -66,7 +66,8 @@ model Account {
   
   // Relations outside
   receipt Receipt[] @relation("AccountReceipts")
-  userAccounts UserAccount[] 
+  userAccounts UserAccount[]
+  INVITES Invite[]
 }
 
 model Receipt {
@@ -105,4 +106,15 @@ model ReceiptItems {
   receipt Receipt @relation("ReceiptItems", fields:[receiptId],references:[id])
   @@index([receiptId])
 
+}
+
+model Invite {
+  id         String   @id @default(uuid())
+  token      String   @unique
+  accountId  String
+  role       Role     @default(CONTRIBUTOR)
+  expiresAt  DateTime
+  used       Boolean  @default(false)
+
+  account    Account  @relation(fields: [accountId], references: [id])
 }
