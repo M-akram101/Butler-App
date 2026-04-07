@@ -23,15 +23,15 @@ export const confirmReceipt = async (
   const { accountId } = data;
   console.log('accountId: ', accountId);
   //  Validate account
-  const accountData = await getAccountForValidation(accountId);
-  console.log({
-    'userId from account': accountData.userId,
-    'userId from body': userId,
-  });
+  const accountData = await getAccountForValidation(accountId, userId);
+  // console.log({
+  //   'userId from account': accountData.userId,
+  //   'userId from body': userId,
+  // });
 
-  if (userId !== accountData.userId) {
-    throw new AppError('Invalid Account Id', 400);
-  }
+  // if (userId !== accountData.userId) {
+  //   throw new AppError('Invalid Account Id', 400);
+  // }
 
   //  Create receipt
   const newReceipt = await prisma.receipt.create({
@@ -44,7 +44,7 @@ export const confirmReceipt = async (
       receiptItems: {
         create: data.receiptItems.map((item) => ({
           name: item.name,
-          itemSize: item.itemSize,
+          itemSize: item.itemSize ?? null,
           quantity: item.quantity,
           price: item.price,
         })),
@@ -63,7 +63,7 @@ export const confirmReceipt = async (
     receiptItems: newReceipt.receiptItems.map((item) => ({
       id: item.id,
       name: item.name,
-      itemSize: item.itemSize,
+      itemSize: item.itemSize ?? undefined,
       quantity: item.quantity,
       price: Number(item.price),
     })),

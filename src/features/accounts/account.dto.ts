@@ -7,7 +7,6 @@ const AccountSchema = z.object({
   area: z.nativeEnum(Area),
   address: z.string().max(100, 'Address must be under 100 characters'),
   capAmount: z.number(),
-  //   userId: z.string(),
 });
 
 export const AccountCreateSchema = AccountSchema;
