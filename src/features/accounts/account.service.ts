@@ -11,8 +11,6 @@ export const createAccount = async (
   data: CreateAccountDTO,
   userId: string,
 ): Promise<CreateAccountOutDTO> => {
-  //   do we need this check ?? const existingAccount
-
   const newAccount = await prisma.account.create({
     data: {
       name: data.name,
@@ -20,7 +18,9 @@ export const createAccount = async (
       address: data.address,
       capAmount: data.capAmount,
       area: data.area,
-      userId,
+      userAccounts: {
+        create: { user: { connect: { id: userId }, role: 'ADMIN' } },
+      },
     },
   });
 
@@ -37,21 +37,21 @@ export const createAccount = async (
   return accountData;
 };
 
-export const getAllAccountsByUserId = async (userId: string) => {
-  const accounts = await prisma.account.findMany({
-    where: { userId, isDeleted: false },
-    select: {
-      id: true,
-      name: true,
-      type: true,
-      address: true,
-      area: true,
-      capAmount: true,
-    },
-  });
+// export const getAllAccountsByUserId = async (userId: string) => {
+//   const accounts = await prisma.account.findMany({
+//     where: { userId, isDeleted: false },
+//     select: {
+//       id: true,
+//       name: true,
+//       type: true,
+//       address: true,
+//       area: true,
+//       capAmount: true,
+//     },
+//   });
 
-  return accounts;
-};
+//   return accounts;
+// };
 
 export const getAccountById = async (id: string) => {
   const account = await prisma.account.findFirst({
@@ -62,7 +62,6 @@ export const getAccountById = async (id: string) => {
       address: true,
       area: true,
       capAmount: true,
-      userId: true,
     },
   });
   if (!account) {
@@ -73,12 +72,9 @@ export const getAccountById = async (id: string) => {
 };
 
 // Specific for validating user has this account
-export const getAccountForValidation = async (id: string) => {
+export const getAccountForValidation = async (id: string, userId: string) => {
   const account = await prisma.account.findFirst({
-    where: { id, isDeleted: false },
-    select: {
-      userId: true,
-    },
+    where: { id, userAccounts: { some: { userId, accountId: id } } },
   });
   if (!account) throw new AppError('Invalid accountId !');
   return account;
@@ -87,12 +83,15 @@ export const getAccountForValidation = async (id: string) => {
 export const updateAccountById = async (id: string, data: UpdateAccountDTO) => {
   const cleanedData = cleanForPrismaUpdate(data);
 
-  if (Object.keys(cleanedData).length === 0)
+  // Ignore nested relations if present
+  const { userAccounts, receipts, ...scalarFields } = cleanedData;
+
+  if (Object.keys(scalarFields).length === 0)
     throw new AppError('No fields to update', 400);
 
   const updatedAccount = await prisma.account.update({
     where: { id },
-    data: cleanedData,
+    data: scalarFields,
     select: {
       name: true,
       type: true,

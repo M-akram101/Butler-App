@@ -14,10 +14,10 @@ export const createReceipt = async (
   userId: string,
 ): Promise<CreateReceiptOutDTO> => {
   // Validate account exists
-  const accountData = await getAccountForValidation(data.accountId);
+  const accountData = await getAccountForValidation(data.accountId, userId);
   // Validate user has this account
-  if (userId !== accountData.userId)
-    throw new AppError('Invalid Account Id', 400);
+  // if (userId !== accountData.userId)
+  //   throw new AppError('Invalid Account Id', 400);
 
   const newReceipt = await prisma.receipt.create({
     data: {
@@ -29,7 +29,7 @@ export const createReceipt = async (
       receiptItems: {
         create: data.receiptItems.map((item) => ({
           name: item.name,
-          itemSize: item.itemSize,
+          itemSize: item.itemSize ?? null,
           quantity: item.quantity,
           price: item.price,
         })),
@@ -49,7 +49,7 @@ export const createReceipt = async (
     receiptItems: newReceipt.receiptItems.map((item) => ({
       id: item.id,
       name: item.name,
-      itemSize: item.itemSize,
+      itemSize: item.itemSize ?? undefined,
       quantity: item.quantity,
       price: Number(item.price),
     })),
@@ -63,10 +63,10 @@ export const getAllReceiptsByAccountId = async (
   userId: string,
 ) => {
   // Validate account exists
-  const accountData = await getAccountForValidation(accountId);
-  // Validate user has this account
-  if (userId !== accountData.userId)
-    throw new AppError('Invalid Account Id', 400);
+  const accountData = await getAccountForValidation(accountId, userId);
+  // // Validate user has this account
+  // if (userId !== accountData.userId)
+  //   throw new AppError('Invalid Account Id', 400);
 
   const receipts = await prisma.receipt.findMany({
     where: { accountId, isDeleted: false },
