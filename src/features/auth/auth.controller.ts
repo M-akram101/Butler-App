@@ -1,8 +1,6 @@
 import { sendSuccess } from '../../utils/apiResponse';
-import { hashPassword, verifyPassword } from '../../utils/auth';
 import { catchAsync } from '../../utils/catchAsync';
 import type { SignUpDTO } from '../users/user.dto';
-import { getUserByEmail } from '../users/user.service';
 import { login, signUp } from './auth.service';
 
 export const signUpHandler = catchAsync(async (req, res, next) => {

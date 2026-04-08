@@ -9,7 +9,7 @@ export const createInviteLinkHandler = catchAsync(async (req, res) => {
   const invite = await createInviteLink(userId, accountId);
 
   res.json({
-    inviteLink: `https://yourapp.com/invite/${invite.token}`,
+    inviteLink: `https://butler.com/invite/${invite.token}`,
   });
 });
 

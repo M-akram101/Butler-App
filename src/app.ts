@@ -14,6 +14,8 @@ import userRouter from './features/users/user.routes';
 import accountRouter from './features/accounts/account.routes';
 import receiptRouter from './features/receipts/receipt.routes';
 import receiptScanRouter from './features/receiptScan/receiptScan.routes';
+import userAccountRouter from './features/userAccounts/userAccounts.routes';
+import inviteRouter from './features/invites/invite.routes';
 const app = express();
 
 //// Security Middlewares
@@ -44,6 +46,9 @@ app.use('/api/v1/users', userRouter);
 app.use('/api/v1/accounts', accountRouter);
 app.use('/api/v1/receipts', receiptRouter);
 app.use('/api/v1/receiptScan', receiptScanRouter);
+app.use('/api/v1/userAccount', userAccountRouter);
+app.use('/api/v1/invite', inviteRouter);
+
 // Global error handler (should be after routes)
 app.use(routeNotFound);
 app.use(errorHandler);

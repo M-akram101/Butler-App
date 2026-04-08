@@ -25,7 +25,6 @@ export const signUp = async (data: SignUpDTO): Promise<UserOutputDTO> => {
       email: data.email,
       password: hashedPassword,
       phoneNumber: data.phoneNumber,
-      role: data.role,
       industry: data.industry,
       maritalStatus: data.maritalStatus,
       gender: data.gender,
@@ -45,7 +44,6 @@ export const signUp = async (data: SignUpDTO): Promise<UserOutputDTO> => {
     lastName: newUser.lastName,
     email: newUser.email,
     phoneNumber: newUser.phoneNumber,
-    role: newUser.role,
     industry: newUser.industry,
     maritalStatus: newUser.maritalStatus,
     gender: newUser.gender,
@@ -73,17 +71,4 @@ export const login = async (email: string, password: string) => {
   }
   const token = createAccessToken(user.id);
   return { token, user: { id: user.id, email: user.email } };
-};
-
-export const getUserRoleById = async (id: string) => {
-  const user = await prisma.user.findUnique({
-    where: { id, isDeleted: false },
-    select: {
-      id: true,
-      role: true,
-      passwordChangedAt: true,
-    },
-  });
-
-  return user;
 };

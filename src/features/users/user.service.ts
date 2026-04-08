@@ -28,9 +28,12 @@ export const getAllusers = async ({
       gender: true,
       jobTitle: true,
       dateOfBirth: true,
-      accounts: {
+      userAccounts: {
+        where: { isDeleted: true },
         select: {
           id: true,
+          accountId: true,
+          role: true,
         },
       },
     },
@@ -55,9 +58,37 @@ export const getUserById = async (id: string) => {
       gender: true,
       jobTitle: true,
       dateOfBirth: true,
-      accounts: {
+      userAccounts: {
+        where: { isDeleted: true },
         select: {
           id: true,
+          accountId: true,
+          role: true,
+        },
+      },
+    },
+  });
+  if (!user) {
+    throw new AppError('User not found', 404);
+  }
+
+  // check existence
+
+  return user;
+};
+
+export const getUserByIdAuth = async (id: string) => {
+  const user = await prisma.user.findFirst({
+    where: { id, isDeleted: false },
+    select: {
+      id: true,
+      passwordChangedAt: true,
+      userAccounts: {
+        where: { isDeleted: true },
+        select: {
+          id: true,
+          accountId: true,
+          role: true,
         },
       },
     },

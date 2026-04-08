@@ -24,7 +24,7 @@ export const createUserAccount = async (
 };
 
 // Gets all users in a certain account
-export const getAllUserAccountsByAccountId = async (
+export const getAllUsersInAccountByAccountId = async (
   userId: string,
   accountId: string,
 ) => {
@@ -32,9 +32,19 @@ export const getAllUserAccountsByAccountId = async (
     where: { accountId, isDeleted: false },
     select: {
       id: true,
-      userId: true,
-      accountId: true,
       role: true,
+      account: { select: { id: true, name: true, type: true, area: true } },
+    },
+  });
+};
+// Gets all accounts by a user
+export const getAllAccountsByUserByUserId = async (userId: string) => {
+  const userAccounts = await prisma.userAccount.findMany({
+    where: { userId, isDeleted: false },
+    select: {
+      id: true,
+      role: true,
+      account: { select: { id: true, name: true, type: true, area: true } },
     },
   });
 

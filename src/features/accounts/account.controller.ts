@@ -6,7 +6,6 @@ import {
   createAccount,
   deleteAccountById,
   getAccountById,
-  getAllAccountsByUserId,
   updateAccountById,
 } from './account.service';
 
@@ -16,12 +15,6 @@ export const createAccountHandler = catchAsync(async (req, res, next) => {
   const data: CreateAccountDTO = { ...req.body };
   const account = await createAccount(data, userId);
   sendSuccess(res, account);
-});
-
-export const getAllAccountsHandler = catchAsync(async (req, res, next) => {
-  const userId = res.locals.user.id;
-  const accounts = await getAllAccountsByUserId(userId);
-  sendSuccess(res, accounts);
 });
 
 export const getAccountHandler = catchAsync(async (req, res, next) => {

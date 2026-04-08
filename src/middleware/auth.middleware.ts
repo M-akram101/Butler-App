@@ -3,8 +3,8 @@ import { AppError } from '../utils/appError';
 import jwt from 'jsonwebtoken';
 import { JWT_SECRET } from '../config/config';
 import { catchAsync } from '../utils/catchAsync';
-import { getUserRoleById } from '../features/auth/auth.service';
-import type { Role } from '@prisma/client';
+
+import { getUserByIdAuth } from '../features/users/user.service';
 
 export const authenticate = () =>
   catchAsync(async (req: Request, res: Response, next: NextFunction) => {
@@ -26,7 +26,7 @@ export const authenticate = () =>
       throw new AppError('Invalid token payload', 401);
     }
     // Check if user exists
-    const user = await getUserRoleById(decoded.id);
+    const user = await getUserByIdAuth(decoded.id);
 
     if (!user) {
       throw new AppError('User no longer exists', 400);
@@ -39,16 +39,16 @@ export const authenticate = () =>
     ) {
       throw new AppError('Password changed. Please login again.', 401);
     }
-    res.locals.user = { id: decoded.id, role: user.role };
+    res.locals.user = { id: decoded.id };
 
     // add condition to check user didnt change pass after token issuance
 
     next();
   });
 
-export const authorize = (roles: [string]) =>
-  catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const { role } = res.locals.user.role;
-    if (!roles.includes(role)) return new AppError('Invalid Credentials', 401);
-    next();
-  });
+// export const authorize = (roles: [string]) =>
+//   catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+//     const { role } = res.locals.user.role;
+//     if (!roles.includes(role)) return new AppError('Invalid Credentials', 401);
+//     next();
+//   });

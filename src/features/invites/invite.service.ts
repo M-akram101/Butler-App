@@ -3,12 +3,12 @@ import { AppError } from '../../utils/appError';
 import prisma from '../../prismaClient';
 
 export const createInviteLink = async (userId: string, accountId: string) => {
-  // 1. Check user is ADMIN
-  const membership = await prisma.userAccount.findFirst({
+  // 1. Check user is admin and on same account
+  const userAccount = await prisma.userAccount.findFirst({
     where: { userId, accountId },
   });
 
-  if (!membership || membership.role !== 'ADMIN') {
+  if (!userAccount || userAccount.role !== 'ADMIN') {
     throw new AppError('Not authorized', 403);
   }
 
@@ -39,16 +39,17 @@ export const acceptInvite = async (userId: string, token: string) => {
   }
 
   // Prevent duplicate membership
-  const existing = await prisma.userAccount.findFirst({
-    where: {
-      userId,
-      accountId: invite.accountId,
-    },
-  });
+  // Already have unique constraint on userId,AccountId
+  // const existing = await prisma.userAccount.findFirst({
+  //   where: {
+  //     userId,
+  //     accountId: invite.accountId,
+  //   },
+  // });
 
-  if (existing) {
-    throw new AppError('Already a member', 400);
-  }
+  // if (existing) {
+  //   throw new AppError('Already a member', 400);
+  // }
 
   // Create membership
   const userAccount = await prisma.userAccount.create({

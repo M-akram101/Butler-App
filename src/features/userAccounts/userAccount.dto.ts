@@ -33,6 +33,6 @@ export type CreateUserAccountOutDTO = z.infer<
 export type UpdateUserAccountDTO = z.infer<typeof UserAccountUpdateSchema>;
 
 // Params Schema
-export const userAccountIdParamSchema = z.object({
+export const idParamSchema = z.object({
   id: z.string().uuid(),
 });

@@ -4,13 +4,14 @@ import { authenticate } from '../../middleware/auth.middleware';
 
 import {
   createUserAccountHandler,
-  getAllUserAccountsHandler,
   getUserAccountHandler,
   updateUserRoleHandler,
   deleteUserAccountHandler,
+  getAllUsersInAccountHandler,
+  getAllAccountsByUserHandler,
 } from './userAccount.controller';
 
-import { userAccountIdParamSchema } from './userAccount.dto';
+import { idParamSchema } from './userAccount.dto';
 
 import { validateParams } from '../../middleware/validateParams.middleware';
 
@@ -18,25 +19,31 @@ const router = Router();
 
 // Create a user account
 router.post(
-  '/:id',
+  '/:accountId',
   authenticate(),
-  validateParams(userAccountIdParamSchema),
+  validateParams(idParamSchema),
   createUserAccountHandler,
 );
 
 // Get all user accounts for a given account
 router.get(
-  '/:id/all',
+  '/:accountId/users-in-account',
   authenticate(),
-  validateParams(userAccountIdParamSchema),
-  getAllUserAccountsHandler,
+  validateParams(idParamSchema),
+  getAllUsersInAccountHandler,
+);
+router.get(
+  '/:userId/accounts/user',
+  authenticate(),
+  validateParams(idParamSchema),
+  getAllAccountsByUserHandler,
 );
 
 // Get a single user account by ID
 router.get(
   '/:id',
   authenticate(),
-  validateParams(userAccountIdParamSchema),
+  validateParams(idParamSchema),
   getUserAccountHandler,
 );
 
@@ -44,7 +51,7 @@ router.get(
 router.patch(
   '/:id',
   authenticate(),
-  validateParams(userAccountIdParamSchema),
+  validateParams(idParamSchema),
   updateUserRoleHandler,
 );
 
@@ -52,7 +59,7 @@ router.patch(
 router.delete(
   '/:id',
   authenticate(),
-  validateParams(userAccountIdParamSchema),
+  validateParams(idParamSchema),
   deleteUserAccountHandler,
 );
 
