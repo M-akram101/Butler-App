@@ -37,22 +37,6 @@ export const createAccount = async (
   return accountData;
 };
 
-// export const getAllAccountsByUserId = async (userId: string) => {
-//   const accounts = await prisma.account.findMany({
-//     where: { userId, isDeleted: false },
-//     select: {
-//       id: true,
-//       name: true,
-//       type: true,
-//       address: true,
-//       area: true,
-//       capAmount: true,
-//     },
-//   });
-
-//   return accounts;
-// };
-
 export const getAccountById = async (id: string) => {
   const account = await prisma.account.findFirst({
     where: { id, isDeleted: false },
