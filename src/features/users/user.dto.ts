@@ -10,7 +10,6 @@ const UserSchema = z.object({
   // set age from date of birthday
   email: z.string().email('Invalid email format'),
   phoneNumber: z.string().max(11),
-  role: z.nativeEnum(Role),
   industry: z.nativeEnum(Industry),
   maritalStatus: z.nativeEnum(MaritalStatus),
   gender: z.nativeEnum(Gender),
@@ -24,7 +23,6 @@ const UserResponseSchema = z.object({
   address: z.string().max(100, 'Address must be under 100 characters'),
   email: z.string().email('Invalid email format'),
   phoneNumber: z.string().max(11),
-  role: z.nativeEnum(Role),
   industry: z.nativeEnum(Industry),
   maritalStatus: z.nativeEnum(MaritalStatus),
   gender: z.nativeEnum(Gender),

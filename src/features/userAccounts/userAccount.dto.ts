@@ -1,7 +1,7 @@
 import { Role } from '@prisma/client';
 import * as z from 'zod';
 
-const UserAccountSchema = z.object({
+export const UserAccountSchema = z.object({
   accountId: z.string().uuid(),
   userId: z.string().uuid(),
   role: z.nativeEnum(Role),
@@ -19,6 +19,9 @@ export const UserAccountCreateOutSchema = z.object({
 export const UserAccountUpdateSchema = z.object({
   role: z.nativeEnum(Role),
 });
+export const UserAccountSchemaAccOutput = UserAccountSchema.omit({
+  accountId: true,
+});
 export const UserAccountUpdateOutSchema = z.object({
   id: z.string().uuid(),
   accountId: z.string().uuid(),
@@ -35,4 +38,10 @@ export type UpdateUserAccountDTO = z.infer<typeof UserAccountUpdateSchema>;
 // Params Schema
 export const idParamSchema = z.object({
   id: z.string().uuid(),
+});
+export const accountIdParamSchema = z.object({
+  accountId: z.string().uuid(),
+});
+export const userIdParamSchema = z.object({
+  userId: z.string().uuid(),
 });

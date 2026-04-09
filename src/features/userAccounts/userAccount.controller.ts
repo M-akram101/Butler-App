@@ -1,5 +1,5 @@
 import { sendSuccess } from '../../utils/apiResponse';
-import { AppError } from '../../utils/appError';
+
 import { catchAsync } from '../../utils/catchAsync';
 import type { UpdateUserAccountDTO } from './userAccount.dto';
 import {
@@ -20,12 +20,8 @@ export const createUserAccountHandler = catchAsync(async (req, res, next) => {
 
 export const getAllUsersInAccountHandler = catchAsync(
   async (req, res, next) => {
-    const accountId = req.params.id as any;
-    const userId = res.locals.user.id;
-    const userAccounts = await getAllUsersInAccountByAccountId(
-      accountId,
-      userId,
-    );
+    const accountId = req.params.accountId as any;
+    const userAccounts = await getAllUsersInAccountByAccountId(accountId);
     sendSuccess(res, userAccounts);
   },
 );
@@ -45,8 +41,8 @@ export const getUserAccountHandler = catchAsync(async (req, res, next) => {
 });
 
 export const updateUserRoleHandler = catchAsync(async (req, res, next) => {
-  const userAccountId = req.params.id as string;
-  const accountId = req.params.id as string;
+  const userAccountId = req.params.userAccountId as string;
+  const accountId = req.params.accountId as string;
   const userId = res.locals.user.id;
 
   const data: UpdateUserAccountDTO = req.body;

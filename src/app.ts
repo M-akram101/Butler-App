@@ -46,7 +46,7 @@ app.use('/api/v1/users', userRouter);
 app.use('/api/v1/accounts', accountRouter);
 app.use('/api/v1/receipts', receiptRouter);
 app.use('/api/v1/receiptScan', receiptScanRouter);
-app.use('/api/v1/userAccount', userAccountRouter);
+app.use('/api/v1/userAccounts', userAccountRouter);
 app.use('/api/v1/invite', inviteRouter);
 
 // Global error handler (should be after routes)

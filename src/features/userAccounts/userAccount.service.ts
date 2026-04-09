@@ -3,11 +3,9 @@ import { prisma } from '../../prismaClient';
 import { AppError } from '../../utils/appError';
 import { cleanForPrismaUpdate } from '../../utils/stripUndefined';
 import type {
-  CreateUserAccountDTO,
   CreateUserAccountOutDTO,
   UpdateUserAccountDTO,
 } from './userAccount.dto';
-import { accountIdParamSchema } from '../accounts/account.dto';
 
 export const createUserAccount = async (
   userId: string,
@@ -24,18 +22,17 @@ export const createUserAccount = async (
 };
 
 // Gets all users in a certain account
-export const getAllUsersInAccountByAccountId = async (
-  userId: string,
-  accountId: string,
-) => {
+export const getAllUsersInAccountByAccountId = async (accountId: string) => {
   const userAccounts = await prisma.userAccount.findMany({
     where: { accountId, isDeleted: false },
     select: {
       id: true,
       role: true,
+      accountId: true,
       account: { select: { id: true, name: true, type: true, area: true } },
     },
   });
+  return userAccounts;
 };
 // Gets all accounts by a user
 export const getAllAccountsByUserByUserId = async (userId: string) => {
@@ -43,6 +40,7 @@ export const getAllAccountsByUserByUserId = async (userId: string) => {
     where: { userId, isDeleted: false },
     select: {
       id: true,
+
       role: true,
       account: { select: { id: true, name: true, type: true, area: true } },
     },
@@ -50,7 +48,7 @@ export const getAllAccountsByUserByUserId = async (userId: string) => {
 
   // Validate user is within this account
 
-  if (!(userId in userAccounts)) throw new AppError('Invalid Account Id', 400);
+  // if (!(userId in userAccounts)) throw new AppError('Invalid Account Id', 400);
 
   return userAccounts;
 };

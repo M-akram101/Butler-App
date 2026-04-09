@@ -11,7 +11,11 @@ import {
   getAllAccountsByUserHandler,
 } from './userAccount.controller';
 
-import { idParamSchema } from './userAccount.dto';
+import {
+  accountIdParamSchema,
+  idParamSchema,
+  userIdParamSchema,
+} from './userAccount.dto';
 
 import { validateParams } from '../../middleware/validateParams.middleware';
 
@@ -21,7 +25,7 @@ const router = Router();
 router.post(
   '/:accountId',
   authenticate(),
-  validateParams(idParamSchema),
+  validateParams(accountIdParamSchema),
   createUserAccountHandler,
 );
 
@@ -29,13 +33,13 @@ router.post(
 router.get(
   '/:accountId/users-in-account',
   authenticate(),
-  validateParams(idParamSchema),
+  validateParams(accountIdParamSchema),
   getAllUsersInAccountHandler,
 );
 router.get(
   '/:userId/accounts/user',
   authenticate(),
-  validateParams(idParamSchema),
+  validateParams(userIdParamSchema),
   getAllAccountsByUserHandler,
 );
 
@@ -49,7 +53,7 @@ router.get(
 
 // Update a user account role
 router.patch(
-  '/:id',
+  '/:userAccountId/:accountId',
   authenticate(),
   validateParams(idParamSchema),
   updateUserRoleHandler,

@@ -4,7 +4,7 @@ import { acceptInvite, createInviteLink } from './invite.service';
 
 export const createInviteLinkHandler = catchAsync(async (req, res) => {
   const userId = res.locals.user.id;
-  const accountId = req.params.id as string;
+  const accountId = req.params.accountId as string;
 
   const invite = await createInviteLink(userId, accountId);
 

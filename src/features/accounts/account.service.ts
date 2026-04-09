@@ -11,6 +11,7 @@ export const createAccount = async (
   data: CreateAccountDTO,
   userId: string,
 ): Promise<CreateAccountOutDTO> => {
+  console.log('Reached Hereeeee');
   const newAccount = await prisma.account.create({
     data: {
       name: data.name,
@@ -19,11 +20,12 @@ export const createAccount = async (
       capAmount: data.capAmount,
       area: data.area,
       userAccounts: {
-        create: { user: { connect: { id: userId }, role: 'ADMIN' } },
+        create: { user: { connect: { id: userId } }, role: 'ADMIN' },
       },
     },
+    // Essential for the joined object to b returned
+    include: { userAccounts: true },
   });
-
   // Map to DTO
   const accountData: CreateAccountOutDTO = {
     id: newAccount.id,
@@ -32,6 +34,10 @@ export const createAccount = async (
     address: newAccount.address,
     capAmount: newAccount.capAmount,
     area: newAccount.area,
+    userAccounts: newAccount.userAccounts.map((userAcc) => ({
+      userId: userAcc.userId,
+      role: userAcc.role,
+    })),
   };
 
   return accountData;
@@ -46,6 +52,7 @@ export const getAccountById = async (id: string) => {
       address: true,
       area: true,
       capAmount: true,
+      userAccounts: true,
     },
   });
   if (!account) {
